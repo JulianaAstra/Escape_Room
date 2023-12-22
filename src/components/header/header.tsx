@@ -1,4 +1,6 @@
 import HeaderBtn from '../header-btn/header-btn';
+import { NavLink } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 function Header(): JSX.Element {
   return (
@@ -12,20 +14,20 @@ function Header(): JSX.Element {
         <nav className="main-nav header__main-nav">
           <ul className="main-nav__list">
             <li className="main-nav__item">
-              <a className="link active" href="index.html">
+              <NavLink className={({ isActive }) => (isActive ? 'link active' : 'link')} to={AppRoute.Root}>
               Квесты
-              </a>
+              </NavLink>
             </li>
             <li className="main-nav__item">
-              <a className="link" href="#">
+              <NavLink className={({ isActive }) => (isActive ? 'link active' : 'link')} to={AppRoute.Contacts}>
               Контакты
-              </a>
+              </NavLink>
             </li>
             {/* зависит от статуса авторизации, сделать по общему состоянию */}
             <li className="main-nav__item">
-              <a className="link" href="my-quests.html">
+              <NavLink className={({ isActive }) => (isActive ? 'link active' : 'link')} to={AppRoute.MyQuests}>
               Мои бронирования
-              </a>
+              </NavLink>
             </li>
           </ul>
         </nav>

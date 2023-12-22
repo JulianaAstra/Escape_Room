@@ -30,7 +30,7 @@ function App (): JSX.Element {
           <Route
             path={AppRoute.MyQuests}
             element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
+              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
                 <MyQuestsPage />
               </PrivateRoute>
             }
