@@ -1,4 +1,4 @@
-export type Quest = {
+export type DetailedQuest = {
   id: string;
   title: string;
   description: string;
@@ -11,7 +11,7 @@ export type Quest = {
   peopleMinMax: number[];
 }
 
-export const quests: Quest[] = [
+export const detailedQuests: DetailedQuest[] = [
   {
     id: '1290c416-9d24-47c8-96de-5e66a9a64cbc',
     title: 'Склеп',
