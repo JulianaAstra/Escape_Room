@@ -2,14 +2,19 @@ import CardsList from '../../components/cards-list/cards-list';
 import { Quest } from '../../mocks/quests';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
+import { Helmet } from 'react-helmet-async';
 
 type MainPageProps = {
   quests: Quest[];
 }
 
 function MainPage({quests}: MainPageProps): JSX.Element {
+
   return (
     <div className="wrapper">
+      <Helmet>
+        <title>Escape Room</title>
+      </Helmet>
       <Header />
       <main className="page-content">
         <div className="container">

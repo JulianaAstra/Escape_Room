@@ -1,7 +1,11 @@
 import { Quest } from '../../mocks/quests';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 type CardProps = {
   quest: Quest;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
 }
 
 function changeImgSrc(src: string): string {
@@ -17,16 +21,15 @@ function changeImgSrc(src: string): string {
 
 }
 
-function Card({quest}: CardProps): JSX.Element {
-  const {title, previewImg, previewImgWebp, level, peopleMinMax} = quest;
+function Card({quest, onMouseEnter, onMouseLeave}: CardProps): JSX.Element {
+  const {id, title, previewImg, previewImgWebp, level, peopleMinMax} = quest;
 
   return (
-    <div className="quest-card">
+    <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} className="quest-card">
       <div className="quest-card__img">
         <picture>
           <source
             type="image/webp"
-            // srcSet="img/content/crypt/crypt-size-s.webp, img/content/crypt/crypt-size-s@2x.webp 2x"
             srcSet={`${previewImgWebp}, ${changeImgSrc(previewImgWebp)}`}
           />
           <img
@@ -40,9 +43,9 @@ function Card({quest}: CardProps): JSX.Element {
       </div>
       <div className="quest-card__content">
         <div className="quest-card__info-wrapper">
-          <a className="quest-card__link" href="quest.html">
+          <Link className="quest-card__link" to={`${AppRoute.Quest}/${id}`}>
             {title}
-          </a>
+          </Link>
         </div>
         <ul className="tags quest-card__tags">
           <li className="tags__item">
