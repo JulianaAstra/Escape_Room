@@ -1,0 +1,22 @@
+body {
+  background-color: #1e1c1c;
+}
+
+.page404 {
+  color: #1e1c1c;
+  width: 50%;
+  margin: 100px auto;
+  padding: 15px 10px;
+  text-align: center;
+  background-color: #f2890f;
+  border-radius: 10px;
+}
+
+.link {
+  text-decoration: underline;
+  color: #1e1c1c;
+}
+
+.link:hover {
+  color: #474444;
+}
