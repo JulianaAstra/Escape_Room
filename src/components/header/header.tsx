@@ -1,16 +1,19 @@
 import HeaderBtn from '../header-btn/header-btn';
 import { NavLink } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import LogoLink from '../logo/logo-link';
+import LogoSpan from '../logo/logo-span';
 
 function Header(): JSX.Element {
   return (
     <header className="header">
       <div className="container container--size-l">
-        <span className="logo header__logo">
+        {window.location.pathname === AppRoute.Root ? <LogoSpan /> : <LogoLink />}
+        {/* <Link className="logo header__logo" to={AppRoute.Root} aria-label="Перейти на Главную">
           <svg width={134} height={52} aria-hidden="true">
             <use xlinkHref="#logo" />
           </svg>
-        </span>
+        </Link> */}
         <nav className="main-nav header__main-nav">
           <ul className="main-nav__list">
             <li className="main-nav__item">
