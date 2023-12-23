@@ -10,7 +10,7 @@ export type Quest = {
 
 export const quests: Quest[] = [
   {
-    id: '1290c416-9d24-47c8-96de-5e66a9a64cbc',
+    id: 'feeb6aff-4ec5-42df-b59d-d596662ce219',
     title: 'Склеп',
     previewImg: 'https://grading.design.htmlacademy.pro/static/quest/crypt.jpg',
     previewImgWebp: 'https://grading.design.htmlacademy.pro/static/quest/crypt.webp',
@@ -22,7 +22,7 @@ export const quests: Quest[] = [
     ]
   },
   {
-    id: '1163a5ae-b29a-4468-93e9-91cab0f7981c',
+    id: 'b02ef6de-c7d0-46a0-84bd-fa8d686f498a',
     title: 'Маньяк',
     previewImg: 'https://grading.design.htmlacademy.pro/static/quest/maniac.jpg',
     previewImgWebp: 'https://grading.design.htmlacademy.pro/static/quest/maniac.webp',
@@ -34,7 +34,7 @@ export const quests: Quest[] = [
     ]
   },
   {
-    id: 'f75a6316-25ae-437e-9e9c-d3235bdebfb8',
+    id: '7f76c1c3-4f29-4978-8305-9a40679c3e15',
     title: 'Ритуал',
     previewImg: 'https://grading.design.htmlacademy.pro/static/quest/ritual.jpg',
     previewImgWebp: 'https://grading.design.htmlacademy.pro/static/quest/ritual.webp',
@@ -46,7 +46,7 @@ export const quests: Quest[] = [
     ]
   },
   {
-    id: 'eefbbff9-dca6-4934-9b89-4a9914281150',
+    id: 'a66d3636-cfa7-47b0-a8c4-4ce1c9a2d844',
     title: 'Тайны старого особняка',
     previewImg: 'https://grading.design.htmlacademy.pro/static/quest/palace.jpg',
     previewImgWebp: 'https://grading.design.htmlacademy.pro/static/quest/palace.webp',
@@ -58,7 +58,7 @@ export const quests: Quest[] = [
     ]
   },
   {
-    id: 'ebc9e26e-4d93-4fb6-93ee-6431fbb71bdd',
+    id: '39e34283-7988-4db4-9c08-35c4fd786897',
     title: 'Хижина в лесу',
     previewImg: 'https://grading.design.htmlacademy.pro/static/quest/hut.jpg',
     previewImgWebp: 'https://grading.design.htmlacademy.pro/static/quest/hut.webp',
@@ -70,7 +70,7 @@ export const quests: Quest[] = [
     ]
   },
   {
-    id: 'b8715215-b4a2-48d1-a459-81cb6f9cce4c',
+    id: '42b072d3-0253-4f5f-b352-a6fb893f3333',
     title: 'Фатальный эксперимент',
     previewImg: 'https://grading.design.htmlacademy.pro/static/quest/experiment.jpg',
     previewImgWebp: 'https://grading.design.htmlacademy.pro/static/quest/experiment.webp',
@@ -82,7 +82,7 @@ export const quests: Quest[] = [
     ]
   },
   {
-    id: '2fde6685-6385-4389-84e4-9a2e4bf649bd',
+    id: '7d918d04-0314-4cd0-b765-c5fa302a88ae',
     title: 'Метро 2033',
     previewImg: 'https://grading.design.htmlacademy.pro/static/quest/metro.jpg',
     previewImgWebp: 'https://grading.design.htmlacademy.pro/static/quest/metro.webp',
@@ -94,7 +94,7 @@ export const quests: Quest[] = [
     ]
   },
   {
-    id: '7ba51dea-e68c-4ba5-87fa-5fcd00cf0c25',
+    id: 'b7d01eb0-ccdf-489e-a441-6dea1a353233',
     title: 'Старый чердак',
     previewImg: 'https://grading.design.htmlacademy.pro/static/quest/loft.jpg',
     previewImgWebp: 'https://grading.design.htmlacademy.pro/static/quest/loft.webp',
@@ -106,7 +106,7 @@ export const quests: Quest[] = [
     ]
   },
   {
-    id: '301d2730-9d30-47bf-905d-108ff5a7dafd',
+    id: 'ea4dc2b0-01a6-44c6-b12f-c83fb97644d3',
     title: 'Марс-2056',
     previewImg: 'https://grading.design.htmlacademy.pro/static/quest/mars.jpg',
     previewImgWebp: 'https://grading.design.htmlacademy.pro/static/quest/mars.webp',
@@ -118,7 +118,7 @@ export const quests: Quest[] = [
     ]
   },
   {
-    id: '780c4aad-5bf9-42a9-8ed5-7335de51d417',
+    id: '775d1bd2-5a80-40b4-acf0-cf7851746f0f',
     title: 'Последний рубеж',
     previewImg: 'https://grading.design.htmlacademy.pro/static/quest/frontier.jpg',
     previewImgWebp: 'https://grading.design.htmlacademy.pro/static/quest/frontier.webp',
@@ -130,7 +130,7 @@ export const quests: Quest[] = [
     ]
   },
   {
-    id: 'b9b7dc85-7949-4e94-8c98-65d2f196c77e',
+    id: 'fbadf0a7-f61f-451c-bcf6-9784a916d549',
     title: 'История призраков',
     previewImg: 'https://grading.design.htmlacademy.pro/static/quest/ghosts.jpg',
     previewImgWebp: 'https://grading.design.htmlacademy.pro/static/quest/ghosts.webp',

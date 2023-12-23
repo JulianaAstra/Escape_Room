@@ -12,8 +12,8 @@ import { AppRoute, AuthorizationStatus } from '../../const';
 import { HelmetProvider } from 'react-helmet-async';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
 
-
 function App (): JSX.Element {
+
   return(
     <HelmetProvider>
       <BrowserRouter>
