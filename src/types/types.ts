@@ -1,7 +1,7 @@
 export type City = {
   title: string;
-  lat: string;
-  lng: string;
+  lat: number;
+  lng: number;
 }
 
 export type Location = {
@@ -24,3 +24,9 @@ export type Point = {
   location: Location;
   slots: Slots;
 }
+
+export type Address = {
+  title: string;
+  lat: number;
+  lng: number;
+};

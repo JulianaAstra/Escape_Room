@@ -1,5 +1,6 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
+import StaticMap from '../../components/map/static-map';
 
 function ContactPage(): JSX.Element {
   return (
@@ -63,9 +64,10 @@ function ContactPage(): JSX.Element {
               </div>
             </dl>
             <div className="contacts__map">
-              <div className="map">
+              <StaticMap />
+              {/* <div className="map">
                 <div className="map__container" />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
