@@ -1,20 +1,21 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import { Helmet } from 'react-helmet-async';
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams, Navigate, Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { detailedQuests } from '../../mocks/detailed-quests';
 
 function QuestPage(): JSX.Element {
 
   const idContainer = useParams();
+
   const quest = detailedQuests.find((elem) => elem.id === idContainer.id);
 
   if (quest === undefined) {
     return <Navigate to={AppRoute.Error} />;
   }
 
-  const {title, description, previewImg, previewImgWebp, coverImg, coverImgWebp, level, type, peopleMinMax} = quest;
+  const {id, title, description, previewImg, previewImgWebp, coverImg, coverImgWebp, level, type, peopleMinMax} = quest;
 
   return (
     <div className="wrapper">
@@ -63,12 +64,12 @@ function QuestPage(): JSX.Element {
             <p className="quest-page__description">
               {description}
             </p>
-            <a
+            <Link
               className="btn btn--accent btn--cta quest-page__btn"
-              href="booking.html"
+              to={`${AppRoute.Quest}/${id}${AppRoute.Booking}`}
             >
           Забронировать
-            </a>
+            </Link>
           </div>
         </div>
       </main>

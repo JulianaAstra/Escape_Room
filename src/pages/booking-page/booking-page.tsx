@@ -1,7 +1,20 @@
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
+import { detailedQuests } from '../../mocks/detailed-quests';
+import { AppRoute } from '../../const';
+import {useParams, Navigate} from 'react-router-dom';
 
 function BookingPage(): JSX.Element {
+
+  const idContainer = useParams();
+  const quest = detailedQuests.find((elem) => elem.id === idContainer.id);
+
+  if (quest === undefined) {
+    return <Navigate to={AppRoute.Error} />;
+  }
+
+  const {title} = quest;
+
   return (
     <div className="wrapper">
       <Header />
@@ -27,7 +40,7 @@ function BookingPage(): JSX.Element {
           Бронирование квеста
             </h1>
             <p className="title title--size-m title--uppercase page-content__title">
-          Маньяк
+              {title}
             </p>
           </div>
           <div className="page-content__item">

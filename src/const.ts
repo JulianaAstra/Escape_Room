@@ -1,6 +1,6 @@
 export enum AppRoute {
   Root = '/',
-  Booking = '/quest/:id/booking',
+  Booking = '/booking',
   Login = '/login',
   Contacts = '/contacts',
   MyQuests = '/my-quests',
