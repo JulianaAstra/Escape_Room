@@ -3,22 +3,19 @@ import Header from '../../components/header/header';
 import { detailedQuests } from '../../mocks/detailed-quests';
 import { AppRoute } from '../../const';
 import {useParams, Navigate} from 'react-router-dom';
-import {useEffect, useState} from 'react';
 import BookingForm from '../../components/booking-form/booking-form';
+import Map from '../../components/map/map';
+import { BookingQuests } from '../../mocks/booking-quests';
+import {useState} from 'react';
+import { Point } from '../../types/types';
 
 function BookingPage(): JSX.Element {
 
-  const [questtt, setQuest] = useState({});
+  const [selectedPoint, setSelectedPoint] = useState<Point>(
+    BookingQuests[0]
+  );
+
   const idContainer = useParams();
-  const id: string = idContainer.id;
-
-  useEffect(() => {
-    fetch(`https://grading.design.htmlacademy.pro/v1/escape-room/quest/${id}/booking`)
-      .then((res) => res.json())
-      .then((res) => setQuest(res));
-  }, []);
-
-  console.log(questtt);
 
   const quest = detailedQuests.find((elem) => elem.id === idContainer.id);
 
@@ -58,16 +55,13 @@ function BookingPage(): JSX.Element {
           </div>
           <div className="page-content__item">
             <div className="booking-map">
-              <div className="map">
-                <div className="map__container" />
-              </div>
+              <Map points={BookingQuests} selectedPoint={selectedPoint}/>
               <p className="booking-map__address">
-            Вы&nbsp;выбрали: наб. реки Карповки&nbsp;5, лит&nbsp;П, м.
-            Петроградская
+            Вы&nbsp;выбрали: {BookingQuests[0]['location']['address']}
               </p>
             </div>
           </div>
-          <BookingForm />
+          <BookingForm selectedPoint={selectedPoint}/>
         </div>
       </main>
       <Footer />
