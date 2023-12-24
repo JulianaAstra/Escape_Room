@@ -15,7 +15,6 @@ function BookingPage(): JSX.Element {
   const [selectedPointId, setSelectedPointId] = useState<string>(selectedPoint.id);
 
   const idContainer = useParams();
-
   const quest = detailedQuests.find((elem) => elem.id === idContainer.id);
 
   useEffect(() => {

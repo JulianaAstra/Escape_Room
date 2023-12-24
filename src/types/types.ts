@@ -30,3 +30,17 @@ export type Address = {
   lat: number;
   lng: number;
 };
+
+export type GenreFilter = {
+  type: string;
+  name: string;
+  img: string;
+  width: string;
+  height: string;
+}
+
+export type DifficultyFilter = {
+  type: string;
+  name: string;
+}
+
