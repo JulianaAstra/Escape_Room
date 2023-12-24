@@ -1,17 +1,18 @@
 import 'leaflet/dist/leaflet.css';
 import {useRef, useEffect} from 'react';
 import useMap from '../../hooks/use-map/use-map';
-import {Icon, Marker, layerGroup} from 'leaflet';
+import {Icon, Marker, featureGroup} from 'leaflet';
 import { CITY } from '../../const';
 import { Point } from '../../types/types';
 import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
 
 type MapProps = {
   points: Point[];
-  selectedPoint: Point | undefined;
+  selectedPointId: string;
+  clickHandler: (point: string) => void;
 }
 
-function Map({points, selectedPoint}: MapProps): JSX.Element {
+function Map({points, selectedPointId, clickHandler}: MapProps): JSX.Element {
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, CITY);
@@ -28,9 +29,11 @@ function Map({points, selectedPoint}: MapProps): JSX.Element {
     iconAnchor: [20, 40],
   });
 
+  const onMarkerClick = (pointId: string) => clickHandler(pointId);
+
   useEffect(() => {
     if (map) {
-      const markerLayer = layerGroup().addTo(map);
+      const markerLayer = featureGroup().addTo(map);
       points.forEach((point) => {
         const marker = new Marker({
           lat: point.location['coords'][0],
@@ -38,13 +41,14 @@ function Map({points, selectedPoint}: MapProps): JSX.Element {
         });
 
         marker.setIcon(
-          selectedPoint !== undefined && point.id === selectedPoint.id ? currentCustomIcon : defaultCustomIcon
+          selectedPointId !== undefined && point.id === selectedPointId ? currentCustomIcon : defaultCustomIcon
         )
+          .on('click', () => onMarkerClick(point.id))
           .addTo(markerLayer);
       });
 
     }
-  }, [map, points]);
+  }, [map, points, selectedPointId]);
 
   return (
     <div className="map">

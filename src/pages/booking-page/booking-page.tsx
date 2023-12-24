@@ -6,24 +6,32 @@ import {useParams, Navigate} from 'react-router-dom';
 import BookingForm from '../../components/booking-form/booking-form';
 import Map from '../../components/map/map';
 import { BookingQuests } from '../../mocks/booking-quests';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import { Point } from '../../types/types';
 
 function BookingPage(): JSX.Element {
 
-  const [selectedPoint, setSelectedPoint] = useState<Point>(
-    BookingQuests[0]
-  );
+  const [selectedPoint, setSelectedPoint] = useState<Point>(BookingQuests[0]);
+  const [selectedPointId, setSelectedPointId] = useState<string>(selectedPoint.id);
 
   const idContainer = useParams();
 
   const quest = detailedQuests.find((elem) => elem.id === idContainer.id);
+
+  useEffect(() => {
+    const currentAddress: Point = BookingQuests.find((elem) => elem.id === selectedPointId);
+    setSelectedPoint(currentAddress);
+  }, [selectedPointId]);
 
   if (quest === undefined) {
     return <Navigate to={AppRoute.Error} />;
   }
 
   const {title, previewImg, previewImgWebp, coverImg, coverImgWebp} = quest;
+
+  const handleMarkerClick = (point: string) => {
+    setSelectedPointId(point);
+  };
 
   return (
     <div className="wrapper">
@@ -55,9 +63,9 @@ function BookingPage(): JSX.Element {
           </div>
           <div className="page-content__item">
             <div className="booking-map">
-              <Map points={BookingQuests} selectedPoint={selectedPoint}/>
+              <Map points={BookingQuests} selectedPointId={selectedPointId} clickHandler={handleMarkerClick} />
               <p className="booking-map__address">
-            Вы&nbsp;выбрали: {BookingQuests[0]['location']['address']}
+            Вы&nbsp;выбрали: {selectedPoint['location']['address']}
               </p>
             </div>
           </div>
