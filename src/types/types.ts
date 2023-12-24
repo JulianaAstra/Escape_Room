@@ -44,3 +44,38 @@ export type DifficultyFilter = {
   name: string;
 }
 
+export type DetailedQuest = {
+  id: string;
+  title: string;
+  description: string;
+  previewImg: string;
+  previewImgWebp: string;
+  coverImg: string;
+  coverImgWebp: string;
+  level: string;
+  type: string;
+  peopleMinMax: number[];
+}
+
+export type BookedQuest = {
+  date: string;
+  time: string;
+  contactPerson: string;
+  phone: string;
+  withChildren: boolean;
+  peopleCount: number;
+  id: string;
+  location: Location;
+  quest: BookedQuestDetailed;
+};
+
+export type BookedQuestDetailed = {
+  id: string;
+  title: string;
+  previewImg: string;
+  previewImgWebp: string;
+  level: string;
+  type: string;
+  peopleMinMax: number[];
+};
+

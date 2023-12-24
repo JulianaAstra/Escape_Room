@@ -18,7 +18,7 @@ function BookingPage(): JSX.Element {
   const quest = detailedQuests.find((elem) => elem.id === idContainer.id);
 
   useEffect(() => {
-    const currentAddress: Point = BookingQuests.find((elem) => elem.id === selectedPointId);
+    const currentAddress = BookingQuests.find((elem) => elem.id === selectedPointId);
     setSelectedPoint(currentAddress);
   }, [selectedPointId]);
 

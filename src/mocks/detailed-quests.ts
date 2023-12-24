@@ -1,15 +1,4 @@
-export type DetailedQuest = {
-  id: string;
-  title: string;
-  description: string;
-  previewImg: string;
-  previewImgWebp: string;
-  coverImg: string;
-  coverImgWebp: string;
-  level: string;
-  type: string;
-  peopleMinMax: number[];
-}
+import { DetailedQuest } from '../types/types';
 
 export const detailedQuests: DetailedQuest[] = [
   {
