@@ -26,7 +26,7 @@ function BookingPage(): JSX.Element {
     return <Navigate to={AppRoute.Error} />;
   }
 
-  const {title, previewImg, previewImgWebp, coverImg, coverImgWebp} = quest;
+  const {title, previewImg, previewImgWebp, coverImg, coverImgWebp, peopleMinMax} = quest;
 
   const handleMarkerClick = (point: string) => {
     setSelectedPointId(point);
@@ -68,7 +68,7 @@ function BookingPage(): JSX.Element {
               </p>
             </div>
           </div>
-          <BookingForm selectedPoint={selectedPoint}/>
+          <BookingForm peopleMinMax={peopleMinMax} selectedPoint={selectedPoint}/>
         </div>
       </main>
       <Footer />

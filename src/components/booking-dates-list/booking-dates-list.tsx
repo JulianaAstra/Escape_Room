@@ -4,9 +4,14 @@ type BookingDatesListProps = {
   slot: Time[];
   slotNameRu: string;
   slotNameEng: string;
+  clickHandler: (value: string) => void;
 }
 
-function BookingDatesList({slot, slotNameRu, slotNameEng}: BookingDatesListProps): JSX.Element {
+function BookingDatesList({slot, slotNameRu, slotNameEng, clickHandler}: BookingDatesListProps): JSX.Element {
+
+  const handleClick = (value: string) => {
+    clickHandler(value);
+  };
 
   return (
     <fieldset className="booking-form__date-section">
@@ -15,11 +20,13 @@ function BookingDatesList({slot, slotNameRu, slotNameEng}: BookingDatesListProps
         {slot.map(({time, isAvailable}) => (
           <label key={time} className="custom-radio booking-form__date">
             <input
+              onClick={(evt: React.MouseEvent<HTMLInputElement>) => handleClick(evt.currentTarget.value)}
               type="radio"
               id={`${slotNameEng}${time.replace(/:/, 'h')}m`}
               name="date"
               required
-              defaultValue={`${slotNameEng}${time.replace(/:/, 'h')}m`}
+              // defaultValue={`${slotNameEng}${time.replace(/:/, 'h')}m`}
+              value={time}
               disabled={!isAvailable}
             />
             <span className="custom-radio__label">{time}</span>

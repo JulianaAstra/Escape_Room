@@ -1,14 +1,14 @@
-import { GenrereFilters, DifficultyFilters } from '../../const';
+import { GenrereFilters, DifficultyFilters, Filters } from '../../const';
 
 function FiltersForm(): JSX.Element {
   return (
     <form className="filter" action="#" method="get">
       <fieldset className="filter__section">
-        <legend className="visually-hidden">Тематика</legend>
+        <legend className="visually-hidden">{Filters.theme}</legend>
         <ul className="filter__list">
           {GenrereFilters.map(({type, name, img, width, height}) => (
             <li key={type} className="filter__item">
-              <input type="radio" name="type" id={type} defaultChecked />
+              <input type="radio" name="type" id={type} />
               <label className="filter__label" htmlFor={type}>
                 <svg
                   className="filter__icon"
@@ -25,11 +25,11 @@ function FiltersForm(): JSX.Element {
         </ul>
       </fieldset>
       <fieldset className="filter__section">
-        <legend className="visually-hidden">Сложность</legend>
+        <legend className="visually-hidden">{Filters.difficulty}</legend>
         <ul className="filter__list">
           {DifficultyFilters. map(({type, name}) => (
             <li key={type} className="filter__item">
-              <input type="radio" name="level" id={type} defaultChecked />
+              <input type="radio" name="level" id={type} />
               <label className="filter__label" htmlFor={type}>
                 <span className="filter__label-text">{name}</span>
               </label>
