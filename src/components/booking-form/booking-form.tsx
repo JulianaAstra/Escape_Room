@@ -2,7 +2,7 @@ import { Point } from '../../types/types';
 import BookingDatesList from '../booking-dates-list/booking-dates-list';
 import { SlotName } from '../../const';
 import { SlotNameEng } from '../../const';
-import {useState} from 'react';
+import {useState, useRef} from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 type BookingFormProps = {
@@ -18,30 +18,41 @@ type Inputs = {
 
 function BookingForm({selectedPoint, peopleMinMax}: BookingFormProps): JSX.Element {
 
+  const childrenRef = useRef<React.MutableRefObject<boolean>>(null);
+
   const [min, max] = peopleMinMax;
   const {slots} = selectedPoint;
   const {today, tomorrow} = slots;
+  const address = selectedPoint['location']['address'];
 
-  const [, setDate] = useState('');
-  const [isChildren, setChildren] = useState(true);
-  const [isAgree, setAgreement] = useState(false);
+  const [formData, setFormData] = useState({
+    day: '',
+    time: '',
+    address: '',
+    name: '',
+    tel: '',
+    persons: '',
+    isAgree: false,
+    isChildren: true,
+  });
 
-  const {register, handleSubmit, formState: { errors }} = useForm<Inputs>();
+  const {register, handleSubmit, formState: { errors }, getValues} = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = () => {
-    console.log('hello');
+    const {persons, userName, userTel} = getValues();
+
+    setFormData({...formData,
+      address: address,
+      name: userName,
+      tel: userTel,
+      persons: persons,
+      isAgree: true,
+      isChildren: childrenRef.current.checked,
+    });
   };
 
-  const onChildrenChange = () => {
-    setChildren(!isChildren);
-  };
-
-  const onAgreementChange = () => {
-    setAgreement(!isAgree);
-  };
-
-  const onDateClick = (value: string) => {
-    setDate(value);
+  const onDateClick = (value: string, name: string) => {
+    setFormData({...formData, time: value, day: name});
   };
 
   return (
@@ -104,7 +115,7 @@ function BookingForm({selectedPoint, peopleMinMax}: BookingFormProps): JSX.Eleme
         </div>
         <label className="custom-checkbox booking-form__checkbox booking-form__checkbox--children">
           <input
-            onChange={onChildrenChange}
+            ref={childrenRef}
             type="checkbox"
             id="children"
             name="children"
@@ -128,7 +139,6 @@ function BookingForm({selectedPoint, peopleMinMax}: BookingFormProps): JSX.Eleme
       </button>
       <label className="custom-checkbox booking-form__checkbox booking-form__checkbox--agreement">
         <input
-          onChange={onAgreementChange}
           type="checkbox"
           id="id-order-agreement"
           name="user-agreement"
