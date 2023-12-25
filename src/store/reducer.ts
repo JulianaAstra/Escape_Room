@@ -13,7 +13,7 @@ export type InitilStateType = {
 const initialState: InitilStateType = {
   activeFilterTheme: 'all',
   activeFilterDifficulty: 'any',
-  authorizationStatus: 'no_auth',
+  authorizationStatus: 'auth',
   quests: quests
 };
 

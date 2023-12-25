@@ -3,8 +3,12 @@ import { NavLink } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import LogoLink from '../logo/logo-link';
 import LogoSpan from '../logo/logo-span';
+import { useAppSelector } from '../../hooks/use-app-selector/use-app-selector';
+import { AuthorizationStatus } from '../../const';
 
 function Header(): JSX.Element {
+  const authorizationStatus: string | undefined = useAppSelector((state) => state.authorizationStatus);
+
   return (
     <header className="header">
       <div className="container container--size-l">
@@ -21,12 +25,12 @@ function Header(): JSX.Element {
               Контакты
               </NavLink>
             </li>
-            {/* зависит от статуса авторизации, сделать по общему состоянию */}
-            <li className="main-nav__item">
-              <NavLink className={({ isActive }) => (isActive ? 'link active' : 'link')} to={AppRoute.MyQuests}>
+            {authorizationStatus === AuthorizationStatus.NoAuth ? '' :
+              <li className="main-nav__item">
+                <NavLink className={({ isActive }) => (isActive ? 'link active' : 'link')} to={AppRoute.MyQuests}>
               Мои бронирования
-              </NavLink>
-            </li>
+                </NavLink>
+              </li>}
           </ul>
         </nav>
         <HeaderBtn />
