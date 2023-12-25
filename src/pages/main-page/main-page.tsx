@@ -1,15 +1,30 @@
 import CardsList from '../../components/cards-list/cards-list';
-import { Quest } from '../../mocks/quests';
+import { Quest } from '../../types/types';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import { Helmet } from 'react-helmet-async';
 import FiltersForm from '../../components/filters-form/filters-form';
+import { useAppSelector } from '../../hooks/use-app-selector/use-app-selector';
 
-type MainPageProps = {
-  quests: Quest[];
-}
+function MainPage(): JSX.Element {
+  const activeFilterTheme = useAppSelector((state) => state.activeFilterTheme);
+  const activeFilterDifficulty = useAppSelector((state) => state.activeFilterDifficulty);
 
-function MainPage({quests}: MainPageProps): JSX.Element {
+  const quests: Quest[] = useAppSelector((state) => state.quests);
+
+  const filteredQuests: Quest[] = quests.filter((item) => {
+    if (activeFilterTheme === 'all') {
+      return item;
+    }
+    return item.type === activeFilterTheme;
+  });
+
+  const sortedQuests: Quest[] = filteredQuests.filter((item) => {
+    if (activeFilterDifficulty === 'any') {
+      return item;
+    }
+    return item.level === activeFilterDifficulty;
+  });
 
   return (
     <div className="wrapper">
@@ -31,7 +46,7 @@ function MainPage({quests}: MainPageProps): JSX.Element {
             <FiltersForm />
           </div>
           <h2 className="title visually-hidden">Выберите квест</h2>
-          <CardsList quests={quests}/>
+          <CardsList quests={sortedQuests}/>
         </div>
       </main>
       <Footer />

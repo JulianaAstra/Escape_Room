@@ -1,5 +1,5 @@
 import MainPage from '../../pages/main-page/main-page';
-import { quests } from '../../mocks/quests';
+// import { quests } from '../../mocks/quests';
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import Page404 from '../../pages/404-page/404-page';
 import BookingPage from '../../pages/booking-page/booking-page';
@@ -21,7 +21,7 @@ function App (): JSX.Element {
         <Routes>
           <Route
             path={AppRoute.Root}
-            element={<MainPage quests={quests}/>}
+            element={<MainPage />}
           />
           <Route
             path={AppRoute.Contacts}

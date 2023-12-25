@@ -25,7 +25,6 @@ function BookingDatesList({slot, slotNameRu, slotNameEng, clickHandler}: Booking
               id={`${slotNameEng}${time.replace(/:/, 'h')}m`}
               name="date"
               required
-              // defaultValue={`${slotNameEng}${time.replace(/:/, 'h')}m`}
               value={time}
               disabled={!isAvailable}
             />

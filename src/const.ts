@@ -52,7 +52,7 @@ export const DifficultyFilters: DifficultyFilter[] = [
     name: 'Лёгкий',
   },
   {
-    type: 'middle',
+    type: 'medium',
     name: 'Средний',
   },
   {
@@ -75,7 +75,7 @@ export const GenrereFilters: GenreFilter[] = [
     height: '30'
   },
   {
-    type: 'adventure',
+    type: 'adventures',
     name: 'Приключения',
     img: '#icon-adventure',
     width: '36',
@@ -103,7 +103,7 @@ export const GenrereFilters: GenreFilter[] = [
     height: '30'
   },
   {
-    type: 'sciFi',
+    type: 'sci-fi',
     name: 'Sci-fi',
     img: '#icon-sci-fi',
     width: '28',
