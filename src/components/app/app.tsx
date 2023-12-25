@@ -1,5 +1,4 @@
 import MainPage from '../../pages/main-page/main-page';
-// import { quests } from '../../mocks/quests';
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import Page404 from '../../pages/404-page/404-page';
 import BookingPage from '../../pages/booking-page/booking-page';
@@ -8,11 +7,14 @@ import LoginPage from '../../pages/login-page/login-page';
 import MyQuestsPage from '../../pages/my-quests-page/my-quests-page';
 import QuestPage from '../../pages/quest-page/quest-page';
 import PrivateRoute from '../private-route/private-route';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute } from '../../const';
 import { HelmetProvider } from 'react-helmet-async';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
+import { useAppSelector } from '../../hooks/use-app-selector/use-app-selector';
 
 function App (): JSX.Element {
+
+  const authorizationStatus: string | undefined = useAppSelector((state) => state.authorizationStatus);
 
   return(
     <HelmetProvider>
@@ -30,7 +32,7 @@ function App (): JSX.Element {
           <Route
             path={AppRoute.MyQuests}
             element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+              <PrivateRoute authorizationStatus={authorizationStatus}>
                 <MyQuestsPage />
               </PrivateRoute>
             }
@@ -50,7 +52,7 @@ function App (): JSX.Element {
           <Route
             path={`${AppRoute.Quest}/:id/booking`}
             element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+              <PrivateRoute authorizationStatus={authorizationStatus}>
                 <BookingPage />
               </PrivateRoute>
             }

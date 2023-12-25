@@ -11,9 +11,9 @@ export enum AppRoute {
 }
 
 export enum AuthorizationStatus {
-  Auth = 'AUTH',
-  NoAuth = 'NO_AUTH',
-  Unknown = 'UNKNOWN'
+  Auth = 'auth',
+  NoAuth = 'no_auth',
+  Unknown = 'unknown'
 }
 
 export enum SlotName {
