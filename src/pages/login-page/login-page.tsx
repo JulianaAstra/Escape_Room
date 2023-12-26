@@ -1,9 +1,43 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
+import { Helmet } from 'react-helmet-async';
+import { FormEvent, useState, ChangeEvent } from 'react';
+import { useAppDispatch } from '../../hooks/use-app-dispatch/use-app-dispatch';
+import { loginAction } from '../../store/api-actions';
 
-function LoginPage(): JSX.Element {
+export const LoginPage = () => {
+  const [authInfo, setAuthInfo] = useState({
+    email: '',
+    password: '',
+  });
+  const dispatch = useAppDispatch();
+
+  const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9]+$/;
+  const isValidPassword = passwordRegex.test(authInfo.password);
+  const isNeedDisable = !authInfo.email || !isValidPassword;
+
+  const handleEmailChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    setAuthInfo({...authInfo, email: evt.target.value});
+  };
+
+  const handlePasswordChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    setAuthInfo({...authInfo, password: evt.target.value});
+  };
+
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    dispatch(loginAction({
+      email: authInfo.email,
+      password: authInfo.password}));
+  };
+
   return (
     <div className="wrapper">
+      <Helmet>
+        <title>
+          Вход
+        </title>
+      </Helmet>
       <Header />
       <main className="decorated-page login">
         <div className="decorated-page__decor" aria-hidden="true">
@@ -24,8 +58,9 @@ function LoginPage(): JSX.Element {
         <div className="container container--size-l">
           <div className="login__form">
             <form
+              onSubmit={handleSubmit}
               className="login-form"
-              action="https://echo.htmlacademy.ru/"
+              action=""
               method="post"
             >
               <div className="login-form__inner-wrapper">
@@ -36,6 +71,8 @@ function LoginPage(): JSX.Element {
                   E&nbsp;–&nbsp;mail
                     </label>
                     <input
+                      value={authInfo.email}
+                      onChange={handleEmailChange}
                       type="email"
                       id="email"
                       name="email"
@@ -48,6 +85,8 @@ function LoginPage(): JSX.Element {
                   Пароль
                     </label>
                     <input
+                      value={authInfo.password}
+                      onChange={handlePasswordChange}
                       type="password"
                       id="password"
                       name="password"
@@ -57,11 +96,17 @@ function LoginPage(): JSX.Element {
                   </div>
                 </div>
                 <button
+                  disabled={isNeedDisable}
                   className="btn btn--accent btn--general login-form__submit"
                   type="submit"
                 >
               Войти
                 </button>
+                {isNeedDisable && (
+                  <p style={{color: 'red'}}>
+                    Password must contain at one number and one letter
+                  </p>
+                )}
               </div>
               <label className="custom-checkbox login-form__checkbox">
                 <input
@@ -90,6 +135,6 @@ function LoginPage(): JSX.Element {
       <Footer />
     </div>
   );
-}
+};
 
 export default LoginPage;

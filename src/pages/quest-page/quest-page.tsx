@@ -1,18 +1,47 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import { Helmet } from 'react-helmet-async';
-import { useParams, Navigate, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { detailedQuests } from '../../mocks/detailed-quests';
+// import { detailedQuests } from '../../mocks/detailed-quests';
+import { useAppSelector } from '../../hooks/use-app-selector/use-app-selector';
+import { useAppDispatch } from '../../hooks/use-app-dispatch/use-app-dispatch';
+import { fetchDetailedQuestAction } from '../../store/api-actions';
+import LoadingScreen from '../loading-screen/loading-screen';
+import Page404 from '../404-page/404-page';
+import { useEffect } from 'react';
 
 function QuestPage(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const questId = useParams().id as string;
+  const quests = useAppSelector((state) => state.quests);
+  const isQuestsLoading = useAppSelector((state) => state.isQuestDataLoading);
+  const isIdExists = quests?.some((quest) => quest.id === questId);
 
-  const idContainer = useParams();
+  useEffect(() => {
+    if (!isIdExists) {
+      return;
+    }
+    dispatch(fetchDetailedQuestAction({id: questId}));
+  }, [isIdExists, questId, dispatch]
+  );
 
-  const quest = detailedQuests.find((elem) => elem.id === idContainer.id);
+  const quest = useAppSelector((state) => state.detailedQuest);
 
-  if (quest === undefined) {
-    return <Navigate to={AppRoute.Error} />;
+  const isDetailedQuestLoading = useAppSelector((state) => state.isDetailedQuestDataLoading);
+  const isPageLoading = isDetailedQuestLoading;
+  const isSomethingMissingFromServer = quest === null || quests === null;
+
+  if (!isIdExists && !isQuestsLoading) {
+    return (
+      <Page404 />
+    );
+  }
+
+  if (isPageLoading || isSomethingMissingFromServer) {
+    return (
+      <LoadingScreen />
+    );
   }
 
   const {id, title, description, previewImg, previewImgWebp, coverImg, coverImgWebp, level, type, peopleMinMax} = quest;
