@@ -1,32 +1,54 @@
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
-import { detailedQuests } from '../../mocks/detailed-quests';
+import { Helmet } from 'react-helmet-async';
+// import { detailedQuests } from '../../mocks/detailed-quests';
 import { AppRoute } from '../../const';
 import {useParams, Navigate} from 'react-router-dom';
 import BookingForm from '../../components/booking-form/booking-form';
 import Map from '../../components/map/map';
-import { BookingQuests } from '../../mocks/booking-quests';
+// import { BookingQuests } from '../../mocks/booking-quests';// ПОЛУЧИТЬ ФЕТЧ
 import {useState, useEffect} from 'react';
 import { Point } from '../../types/types';
+import { useAppSelector } from '../../hooks/use-app-selector/use-app-selector';
+import { useAppDispatch } from '../../hooks/use-app-dispatch/use-app-dispatch';
+import LoadingScreen from '../loading-screen/loading-screen';
+import Page404 from '../404-page/404-page';
+import { fetchBookingInformationAction } from '../../store/api-actions';
 
 function BookingPage(): JSX.Element {
+  // const questId = useParams().id as string;
+  const detailedQuest = useAppSelector((state) => state.detailedQuest);
+  const bookingInfo = useAppSelector((state) => state.bookingInfo);
 
-  const [selectedPoint, setSelectedPoint] = useState<Point>(BookingQuests[0]);
-  const [selectedPointId, setSelectedPointId] = useState<string>(selectedPoint.id);
+  console.log(bookingInfo);
+  console.log(detailedQuest);
 
-  const idContainer = useParams();
-  const quest = detailedQuests.find((elem) => elem.id === idContainer.id);
+  const [selectedPoint, setSelectedPoint] = useState<Point | undefined>(bookingInfo[0]);
+  const [selectedPointId, setSelectedPointId] = useState<string | undefined>(selectedPoint.id);
+
 
   useEffect(() => {
-    const currentAddress = BookingQuests.find((elem) => elem.id === selectedPointId);
+    const currentAddress = bookingInfo?.find((elem) => elem.id === selectedPointId);
     setSelectedPoint(currentAddress);
   }, [selectedPointId]);
 
-  if (quest === undefined) {
-    return <Navigate to={AppRoute.Error} />;
+  // const isDetailedQuestLoading = useAppSelector((state) => state.isDetailedQuestDataLoading);
+  // const isPageLoading = isDetailedQuestLoading;
+  const isSomethingMissingFromServer = detailedQuest === null || bookingInfo === null;
+
+  // if (!isBookingInfoLoading) {
+  //   return (
+  //     <LoadingScreen />
+  //   );
+  // }
+
+  if (isSomethingMissingFromServer) {
+    return (
+      <Page404 />
+    );
   }
 
-  const {title, previewImg, previewImgWebp, coverImg, coverImgWebp, peopleMinMax} = quest;
+  const {title, previewImg, previewImgWebp, coverImg, coverImgWebp, peopleMinMax} = detailedQuest;
 
   const handleMarkerClick = (point: string) => {
     setSelectedPointId(point);
@@ -34,6 +56,11 @@ function BookingPage(): JSX.Element {
 
   return (
     <div className="wrapper">
+      <Helmet>
+        <title>
+          Забронировать
+        </title>
+      </Helmet>
       <Header />
       <main className="page-content decorated-page">
         <div className="decorated-page__decor" aria-hidden="true">
@@ -62,7 +89,7 @@ function BookingPage(): JSX.Element {
           </div>
           <div className="page-content__item">
             <div className="booking-map">
-              <Map points={BookingQuests} selectedPointId={selectedPointId} clickHandler={handleMarkerClick} />
+              <Map points={bookingInfo} selectedPointId={selectedPointId} clickHandler={handleMarkerClick} />
               <p className="booking-map__address">
             Вы&nbsp;выбрали: {selectedPoint['location']['address']}
               </p>

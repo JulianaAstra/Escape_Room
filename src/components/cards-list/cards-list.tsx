@@ -1,5 +1,6 @@
 import Card from '../card/card';
-import { Quest } from '../../mocks/quests';
+import { Quest } from '../../types/types';
+// import { Quest } from '../../mocks/quests';
 
 type CardsListProps = {
   quests: Quest[];

@@ -1,6 +1,7 @@
-import { Quest } from '../../mocks/quests';
+// import { Quest } from '../../mocks/quests';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import { Quest } from '../../types/types';
 
 type CardProps = {
   quest: Quest;

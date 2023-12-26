@@ -2,8 +2,8 @@ import { Point } from '../../types/types';
 import BookingDatesList from '../booking-dates-list/booking-dates-list';
 import { SlotName } from '../../const';
 import { SlotNameEng } from '../../const';
-import {useState, useRef} from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import {useState, useRef, FormEvent} from 'react';
+import { useForm } from 'react-hook-form';
 
 type BookingFormProps = {
   selectedPoint: Point;
@@ -18,7 +18,7 @@ type Inputs = {
 
 function BookingForm({selectedPoint, peopleMinMax}: BookingFormProps): JSX.Element {
 
-  const childrenRef = useRef<React.MutableRefObject<boolean>>(null);
+  const childrenRef = useRef<HTMLInputElement | null>(null);
 
   const [min, max] = peopleMinMax;
   const {slots} = selectedPoint;
@@ -38,7 +38,8 @@ function BookingForm({selectedPoint, peopleMinMax}: BookingFormProps): JSX.Eleme
 
   const {register, handleSubmit, formState: { errors }, getValues} = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = () => {
+  const onSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
     const {persons, userName, userTel} = getValues();
 
     setFormData({...formData,

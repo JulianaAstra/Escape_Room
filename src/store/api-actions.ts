@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Quest, DetailedQuest } from '../types/types';
-import { getQuests, getDetailedQuest, setAuthorization, setError, setQuestDataLoadingStatus, setDetailedQuestDataLoadingStatus } from './action';
+import { Quest, DetailedQuest, Point } from '../types/types';
+import { getQuests, getDetailedQuest, setAuthorization, setError, setQuestDataLoadingStatus, setDetailedQuestDataLoadingStatus, setBookingInformationDataLoadingStatus, getBookingInformation } from './action';
 import { saveToken, dropToken } from '../services/token';
 import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
 import { AuthData } from '../types/auth-data';
@@ -30,6 +30,17 @@ export const fetchDetailedQuestAction = createAsyncThunk<void, {id: string}, Thu
     api.get<DetailedQuest>(url);
     dispatch(getDetailedQuest(data));
     dispatch(setDetailedQuestDataLoadingStatus(false));
+  },
+);
+
+export const fetchBookingInformationAction = createAsyncThunk<void, {id: string}, ThunkObjType>(
+  'data/fetchBookingInformation', async ({id}, {dispatch, extra: api}) => {
+    dispatch(setBookingInformationDataLoadingStatus(true));
+    const url = id !== undefined ? `${APIRoute.Quests}/${id}/booking` : '';
+    const {data} = await
+    api.get<Point[]>(url);
+    dispatch(getBookingInformation(data));
+    dispatch(setBookingInformationDataLoadingStatus(false));
   },
 );
 
