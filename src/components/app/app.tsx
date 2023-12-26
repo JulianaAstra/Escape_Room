@@ -16,7 +16,7 @@ import LoadingScreen from '../../pages/loading-screen/loading-screen';
 function App (): JSX.Element {
 
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isQuestsDataLoading = useAppSelector((state) => state.isQuestionDataLoading);
+  const isQuestsDataLoading = useAppSelector((state) => state.isQuestDataLoading);
 
   if (authorizationStatus === AuthorizationStatus.Unknown || isQuestsDataLoading) {
     return (

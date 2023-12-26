@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeFilterTheme, changeFilterDifficulty, getQuests, requireAuthorization, setError, setQuestDataLoadingStatus } from './action';
+import { changeFilterTheme, changeFilterDifficulty, getQuests, setAuthorization, setError, setQuestDataLoadingStatus } from './action';
 import { Quest } from '../types/types';
 import { AuthorizationStatus } from '../const';
 // import { quests } from '../mocks/quests';
@@ -39,7 +39,7 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(setQuestDataLoadingStatus, (state, action) => {
       state.isQuestDataLoading = action.payload;
     })
-    .addCase(requireAuthorization, (state, action) => {
+    .addCase(setAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
     });
 });

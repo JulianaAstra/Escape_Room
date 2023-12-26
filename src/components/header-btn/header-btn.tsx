@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 function HeaderBtn(): JSX.Element {
 
-  const authorizationStatus: string | undefined = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus: AuthorizationStatus = useAppSelector((state) => state.authorizationStatus);
   // const dispatch = useAppDispatch();
 
   const handleBtnClick = (evt: MouseEvent<HTMLElement>) => {

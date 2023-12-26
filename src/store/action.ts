@@ -6,7 +6,9 @@ export const changeFilterTheme = createAction('changeFilterTheme', (theme: strin
 
 export const changeFilterDifficulty = createAction('changeFilterDifficulty', (difficulty: string | undefined) => ({payload: difficulty}));
 
-export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
+// export const requireAuthorization = createAction<AuthorizationStatus>('requireAuthorization', (authorizationStatus): AuthorizationStatus) => ({payload: authorizationStatus});
+
+export const setAuthorization = createAction('requireAuthorization', (authorizationStatus: AuthorizationStatus) => ({ payload: authorizationStatus }));
 
 export const getQuests = createAction<Quest[]>('getQuests');
 
