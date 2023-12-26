@@ -8,7 +8,7 @@ import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
 
 type MapProps = {
   points: Point[];
-  selectedPointId: string | undefined;
+  selectedPointId: string | null;
   clickHandler: (point: string) => void;
 }
 

@@ -1,7 +1,7 @@
 import { Time } from '../../types/types';
 
 type BookingDatesListProps = {
-  slot: Time[];
+  slot: Time[] | null;
   slotNameRu: string;
   slotNameEng: string;
   clickHandler: (value: string, name: string) => void;
@@ -17,7 +17,7 @@ function BookingDatesList({slot, slotNameRu, slotNameEng, clickHandler}: Booking
     <fieldset className="booking-form__date-section">
       <legend className="booking-form__date-title">{slotNameRu}</legend>
       <div className="booking-form__date-inner-wrapper">
-        {slot.map(({time, isAvailable}) => (
+        {slot !== null ? slot.map(({time, isAvailable}) => (
           <label key={time} className="custom-radio booking-form__date">
             <input
               onClick={(evt: React.MouseEvent<HTMLInputElement>) => handleClick(evt.currentTarget.value, slotNameEng)}
@@ -29,7 +29,7 @@ function BookingDatesList({slot, slotNameRu, slotNameEng, clickHandler}: Booking
               disabled={!isAvailable}
             />
             <span className="custom-radio__label">{time}</span>
-          </label>))}
+          </label>)) : ''}
       </div>
     </fieldset>
   );

@@ -6,7 +6,7 @@ import {useState, useRef, FormEvent} from 'react';
 import { useForm } from 'react-hook-form';
 
 type BookingFormProps = {
-  selectedPoint: Point;
+  selectedPoint: Point | null;
   peopleMinMax: number[];
 }
 
@@ -21,9 +21,11 @@ function BookingForm({selectedPoint, peopleMinMax}: BookingFormProps): JSX.Eleme
   const childrenRef = useRef<HTMLInputElement | null>(null);
 
   const [min, max] = peopleMinMax;
-  const {slots} = selectedPoint;
-  const {today, tomorrow} = slots;
-  const address = selectedPoint['location']['address'];
+  const slots = selectedPoint !== null ? selectedPoint.slots : null;
+
+  const today = slots !== null ? slots.today : null;
+  const tomorrow = slots !== null ? slots.tomorrow : null;
+  const address = selectedPoint !== null ? selectedPoint['location']['address'] : null;
 
   const [formData, setFormData] = useState({
     day: '',
@@ -48,7 +50,7 @@ function BookingForm({selectedPoint, peopleMinMax}: BookingFormProps): JSX.Eleme
       tel: userTel,
       persons: persons,
       isAgree: true,
-      isChildren: childrenRef.current.checked,
+      isChildren: childrenRef?.current?.checked,
     });
   };
 

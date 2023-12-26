@@ -1,35 +1,31 @@
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import { Helmet } from 'react-helmet-async';
-// import { detailedQuests } from '../../mocks/detailed-quests';
-import { AppRoute } from '../../const';
-import {useParams, Navigate} from 'react-router-dom';
+// import { AppRoute } from '../../const';
+// import {useParams, Navigate} from 'react-router-dom';
 import BookingForm from '../../components/booking-form/booking-form';
 import Map from '../../components/map/map';
-// import { BookingQuests } from '../../mocks/booking-quests';// ПОЛУЧИТЬ ФЕТЧ
 import {useState, useEffect} from 'react';
 import { Point } from '../../types/types';
 import { useAppSelector } from '../../hooks/use-app-selector/use-app-selector';
-import { useAppDispatch } from '../../hooks/use-app-dispatch/use-app-dispatch';
-import LoadingScreen from '../loading-screen/loading-screen';
+// import LoadingScreen from '../loading-screen/loading-screen';
 import Page404 from '../404-page/404-page';
-import { fetchBookingInformationAction } from '../../store/api-actions';
 
 function BookingPage(): JSX.Element {
-  // const questId = useParams().id as string;
   const detailedQuest = useAppSelector((state) => state.detailedQuest);
   const bookingInfo = useAppSelector((state) => state.bookingInfo);
+  const firstPoint: Point | null = bookingInfo !== null ? bookingInfo[0] : null;
 
-  console.log(bookingInfo);
-  console.log(detailedQuest);
+  const [selectedPoint, setSelectedPoint] = useState<Point | null>(firstPoint);
+  const selectedPointID: string | null = selectedPoint !== null ? selectedPoint.id : null;
 
-  const [selectedPoint, setSelectedPoint] = useState<Point | undefined>(bookingInfo[0]);
-  const [selectedPointId, setSelectedPointId] = useState<string | undefined>(selectedPoint.id);
-
+  const [selectedPointId, setSelectedPointId] = useState<string | null>(selectedPointID);
 
   useEffect(() => {
-    const currentAddress = bookingInfo?.find((elem) => elem.id === selectedPointId);
-    setSelectedPoint(currentAddress);
+    if (bookingInfo !== null) {
+      const currentAddress: Point | null = bookingInfo.find((elem) => elem.id === selectedPointId);
+      setSelectedPoint(currentAddress);
+    }
   }, [selectedPointId]);
 
   // const isDetailedQuestLoading = useAppSelector((state) => state.isDetailedQuestDataLoading);
@@ -91,7 +87,7 @@ function BookingPage(): JSX.Element {
             <div className="booking-map">
               <Map points={bookingInfo} selectedPointId={selectedPointId} clickHandler={handleMarkerClick} />
               <p className="booking-map__address">
-            Вы&nbsp;выбрали: {selectedPoint['location']['address']}
+            Вы&nbsp;выбрали: {selectedPoint !== null ? selectedPoint['location']['address'] : ''}
               </p>
             </div>
           </div>
