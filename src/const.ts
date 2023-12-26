@@ -10,6 +10,12 @@ export enum AppRoute {
   Error = '/404'
 }
 
+export enum APIRoute {
+  Quests = '/v1/escape-room/quest',
+  Login = '/v1/escape-room/login',
+  Logout = '/v1/escape-room/logout',
+}
+
 export enum AuthorizationStatus {
   Auth = 'auth',
   NoAuth = 'no_auth',
@@ -111,3 +117,4 @@ export const GenrereFilters: GenreFilter[] = [
   }
 ];
 
+export const TIMEOUT_SHOW_ERROR = 2000;

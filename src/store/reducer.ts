@@ -1,20 +1,25 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeFilterTheme, changeFilterDifficulty, changeAuthorisationStatus, getQuests } from './action';
+import { changeFilterTheme, changeFilterDifficulty, getQuests, requireAuthorization, setError, setQuestDataLoadingStatus } from './action';
 import { Quest } from '../types/types';
-import { quests } from '../mocks/quests';
+import { AuthorizationStatus } from '../const';
+// import { quests } from '../mocks/quests';
 
 export type InitilStateType = {
   activeFilterTheme: string | undefined;
   activeFilterDifficulty: string | undefined;
-  authorizationStatus: string | undefined;
-  quests: Quest[];
+  authorizationStatus: AuthorizationStatus;
+  isQuestDataLoading: boolean;
+  quests: Quest[] | null;
+  error: string | null;
 }
 
 const initialState: InitilStateType = {
   activeFilterTheme: 'all',
   activeFilterDifficulty: 'any',
-  authorizationStatus: 'auth',
-  quests: quests
+  quests: [],
+  authorizationStatus: AuthorizationStatus.Unknown,
+  isQuestDataLoading: false,
+  error: null,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -25,10 +30,16 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(changeFilterDifficulty, (state, action) => {
       state.activeFilterDifficulty = action.payload;
     })
-    .addCase(getQuests, (state) => {
-      state.quests = quests;
+    .addCase(getQuests, (state, action) => {
+      state.quests = action.payload;
     })
-    .addCase(changeAuthorisationStatus, (state, action) => {
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
+    })
+    .addCase(setQuestDataLoadingStatus, (state, action) => {
+      state.isQuestDataLoading = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
     });
 });

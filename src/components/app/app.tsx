@@ -7,14 +7,22 @@ import LoginPage from '../../pages/login-page/login-page';
 import MyQuestsPage from '../../pages/my-quests-page/my-quests-page';
 import QuestPage from '../../pages/quest-page/quest-page';
 import PrivateRoute from '../private-route/private-route';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import { HelmetProvider } from 'react-helmet-async';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
 import { useAppSelector } from '../../hooks/use-app-selector/use-app-selector';
+import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
 function App (): JSX.Element {
 
-  const authorizationStatus: string | undefined = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isQuestsDataLoading = useAppSelector((state) => state.isQuestionDataLoading);
+
+  if (authorizationStatus === AuthorizationStatus.Unknown || isQuestsDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return(
     <HelmetProvider>

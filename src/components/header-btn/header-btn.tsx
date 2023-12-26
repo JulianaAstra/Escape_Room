@@ -1,25 +1,25 @@
 import { AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks/use-app-selector/use-app-selector';
 import { MouseEvent } from 'react';
-import { changeAuthorisationStatus } from '../../store/action';
-import { useAppDispatch } from '../../hooks/use-app-dispatch/use-app-dispatch';
+// import { changeAuthorisationStatus } from '../../store/action';
+// import { useAppDispatch } from '../../hooks/use-app-dispatch/use-app-dispatch';
 import { AppRoute } from '../../const';
 import { Link } from 'react-router-dom';
 
 function HeaderBtn(): JSX.Element {
 
   const authorizationStatus: string | undefined = useAppSelector((state) => state.authorizationStatus);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   const handleBtnClick = (evt: MouseEvent<HTMLElement>) => {
     // evt.preventDefault();
     switch (evt.currentTarget.dataset.status) {
       case AuthorizationStatus.Auth:
-        dispatch(changeAuthorisationStatus(AuthorizationStatus.NoAuth));
+        // dispatch(changeAuthorisationStatus(AuthorizationStatus.NoAuth));
         console.log(authorizationStatus);
         break;
-      // case AuthorizationStatus.NoAuth:
-      //   dispatch(changeAuthorisationStatus(AuthorizationStatus.Auth));
+        // case AuthorizationStatus.NoAuth:
+        //   dispatch(changeAuthorisationStatus(AuthorizationStatus.Auth));
         console.log(authorizationStatus);
         break;
     }
