@@ -1,5 +1,5 @@
 import MainPage from '../../pages/main-page/main-page';
-import { Route, BrowserRouter, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Page404 from '../../pages/404-page/404-page';
 import BookingPage from '../../pages/booking-page/booking-page';
 import ContactPage from '../../pages/contacts-page/contacts-page';
@@ -12,6 +12,8 @@ import { HelmetProvider } from 'react-helmet-async';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
 import { useAppSelector } from '../../hooks/use-app-selector/use-app-selector';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../browser-history';
 
 function App (): JSX.Element {
 
@@ -26,7 +28,7 @@ function App (): JSX.Element {
 
   return(
     <HelmetProvider>
-      <BrowserRouter>
+      <HistoryRouter history={browserHistory}>
         <ScrollToTop />
         <Routes>
           <Route
@@ -47,7 +49,7 @@ function App (): JSX.Element {
           />
           <Route
             path={AppRoute.Login}
-            element={<LoginPage />}
+            element={authorizationStatus === AuthorizationStatus.Auth ? <MainPage /> : <LoginPage />}
           />
           <Route
             path={`${AppRoute.Quest}/:id`}
@@ -66,7 +68,7 @@ function App (): JSX.Element {
             }
           />
         </Routes>
-      </BrowserRouter>
+      </HistoryRouter>
     </HelmetProvider>
   );
 }

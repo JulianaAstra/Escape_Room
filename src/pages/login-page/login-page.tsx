@@ -2,15 +2,16 @@ import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import { Helmet } from 'react-helmet-async';
 import { FormEvent, useState, ChangeEvent } from 'react';
-import { useAppDispatch } from '../../hooks/use-app-dispatch/use-app-dispatch';
 import { loginAction } from '../../store/api-actions';
+import { useAppDispatch } from '../../hooks/use-app-dispatch/use-app-dispatch';
 
 export const LoginPage = () => {
+  const dispatch = useAppDispatch();
+
   const [authInfo, setAuthInfo] = useState({
     email: '',
     password: '',
   });
-  const dispatch = useAppDispatch();
 
   const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9]+$/;
   const isValidPassword = passwordRegex.test(authInfo.password);

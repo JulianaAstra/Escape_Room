@@ -1,8 +1,20 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
+import { fetchBookedQuestsAction } from '../../store/api-actions';
+import { useAppDispatch } from '../../hooks/use-app-dispatch/use-app-dispatch';
+import { useAppSelector } from '../../hooks/use-app-selector/use-app-selector';
+import { useEffect } from 'react';
 import BookedCardsList from '../../components/booked-cards-list/booked-cards-list';
 
 function MyQuestsPage(): JSX.Element {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchBookedQuestsAction());
+  }, [dispatch]);
+
+  const myQuests = useAppSelector((state) => state.bookedQuests);
+
   return (
     <div className="wrapper">
       <Header />
@@ -28,7 +40,7 @@ function MyQuestsPage(): JSX.Element {
           Мои бронирования
             </h1>
           </div>
-          <BookedCardsList />
+          <BookedCardsList bookedQuests={myQuests} />
         </div>
       </main>
       <Footer />

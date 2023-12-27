@@ -1,12 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Quest, DetailedQuest, Point } from '../types/types';
-import { getQuests, getDetailedQuest, setAuthorization, setError, setQuestDataLoadingStatus, setDetailedQuestDataLoadingStatus, setBookingInformationDataLoadingStatus, getBookingInformation } from './action';
+import { Quest, DetailedQuest, Point, BookedQuest } from '../types/types';
+import { getQuests, getDetailedQuest, setAuthorization, setError, setQuestDataLoadingStatus, setDetailedQuestDataLoadingStatus, setBookingInformationDataLoadingStatus, getBookingInformation, redirectToRoute, setBookedQuestsDataLoadingStatus, getBookedQuests} from './action';
 import { saveToken, dropToken } from '../services/token';
-import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
+import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR, AppRoute } from '../const';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { store } from '.';
 import { ThunkObjType } from '../types/thunk-object';
+// import { Reducer } from './middlewares/redirect';
+// import { Middleware } from '@reduxjs/toolkit';
 
 export const clearErrorAction = createAsyncThunk('clearError', () => {
   setTimeout(() => store.dispatch(setError(null)), TIMEOUT_SHOW_ERROR,);
@@ -44,6 +46,16 @@ export const fetchBookingInformationAction = createAsyncThunk<void, {id: string}
   },
 );
 
+export const fetchBookedQuestsAction = createAsyncThunk<void, undefined, ThunkObjType>(
+  'data/fetchBookedQuests', async (_arg, {dispatch, extra: api}) => {
+    dispatch(setBookedQuestsDataLoadingStatus(true));
+    const {data} = await
+    api.get<BookedQuest[]>(APIRoute.Reservation);
+    dispatch(getBookedQuests(data));
+    dispatch(setBookedQuestsDataLoadingStatus(false));
+  },
+);
+
 export const checkAuthAction = createAsyncThunk<void, undefined, ThunkObjType>(
   'checkAuth',
   async (_arg, {dispatch, extra: api}) => {
@@ -62,6 +74,7 @@ export const loginAction = createAsyncThunk<void, AuthData, ThunkObjType>('user/
   saveToken(token);
 
   dispatch(setAuthorization(AuthorizationStatus.Auth));
+  dispatch(redirectToRoute(AppRoute.Root));
 },
 );
 
@@ -70,6 +83,7 @@ export const logoutAction = createAsyncThunk<void, undefined, ThunkObjType>('use
   dropToken();
 
   dispatch(setAuthorization(AuthorizationStatus.NoAuth));
+  dispatch(redirectToRoute(AppRoute.Root));
 },);
 
 
