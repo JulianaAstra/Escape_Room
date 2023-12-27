@@ -1,6 +1,8 @@
 import { BookedQuest } from '../../types/types';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import { deleteQuestAction } from '../../store/api-actions';
+import { useAppDispatch } from '../../hooks/use-app-dispatch/use-app-dispatch';
 
 type BookedCardProps = {
   bookedQuest: BookedQuest;
@@ -19,8 +21,16 @@ function changeImgSrc(src: string): string {
 }
 
 function BookedCard({bookedQuest}: BookedCardProps): JSX.Element {
+
+  const dispatch = useAppDispatch();
   const {date, time, peopleCount, location, quest} = bookedQuest;
+  const reservId = bookedQuest.id;
   const {id, title, level, previewImg, previewImgWebp} = quest;
+
+  const deleteBtnClickHandler = (evt: React.MouseEvent<HTMLButtonElement>) => {
+    evt.preventDefault();
+    dispatch(deleteQuestAction({reservId}));
+  };
 
   return (
     <div className="quest-card">
@@ -63,6 +73,7 @@ function BookedCard({bookedQuest}: BookedCardProps): JSX.Element {
           </li>
         </ul>
         <button
+          onClick={deleteBtnClickHandler}
           className="btn btn--accent btn--secondary quest-card__btn"
           type="button"
         >

@@ -2,12 +2,16 @@ import { Point } from '../../types/types';
 import BookingDatesList from '../booking-dates-list/booking-dates-list';
 import { SlotName } from '../../const';
 import { SlotNameEng } from '../../const';
-import {useState, useRef, FormEvent} from 'react';
+import {useState, useRef} from 'react';
 import { useForm } from 'react-hook-form';
+import { fetchBookQuestAction } from '../../store/api-actions';
+import { useAppDispatch } from '../../hooks/use-app-dispatch/use-app-dispatch';
+import { BookedQuestData } from '../../types/booked-quest-data';
 
 type BookingFormProps = {
   selectedPoint: Point | null;
   peopleMinMax: number[];
+  questId: string | null;
 }
 
 type Inputs = {
@@ -16,46 +20,47 @@ type Inputs = {
   persons: string;
 };
 
-function BookingForm({selectedPoint, peopleMinMax}: BookingFormProps): JSX.Element {
+function BookingForm({selectedPoint, peopleMinMax, questId}: BookingFormProps): JSX.Element {
 
   const childrenRef = useRef<HTMLInputElement | null>(null);
 
   const [min, max] = peopleMinMax;
   const slots = selectedPoint !== null ? selectedPoint.slots : null;
-
+  const placeId = selectedPoint !== null ? selectedPoint.id : null;
   const today = slots !== null ? slots.today : null;
   const tomorrow = slots !== null ? slots.tomorrow : null;
-  const address = selectedPoint !== null ? selectedPoint['location']['address'] : null;
 
   const [formData, setFormData] = useState({
-    day: '',
+    date: '',
     time: '',
-    address: '',
-    name: '',
-    tel: '',
-    persons: '',
-    isAgree: false,
-    isChildren: true,
   });
 
-  const {register, handleSubmit, formState: { errors }, getValues} = useForm<Inputs>();
+  const {register, handleSubmit, formState: { errors, isDirty, isValid }, getValues} = useForm<Inputs>({mode: 'onChange'});
 
-  const onSubmit = (evt: FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
+  const dispatch = useAppDispatch();
+
+  const onSubmit = () => {
     const {persons, userName, userTel} = getValues();
 
-    setFormData({...formData,
-      address: address,
-      name: userName,
-      tel: userTel,
-      persons: persons,
-      isAgree: true,
-      isChildren: childrenRef?.current?.checked,
-    });
+    const id = questId;
+    const withChildren = childrenRef.current.checked;
+
+    const bookedQuest: BookedQuestData = {
+      contactPerson: userName,
+      phone: userTel,
+      peopleCount: Number(persons),
+      withChildren: withChildren,
+      date: formData.date,
+      time: formData.time,
+      placeId,
+      id
+    };
+
+    dispatch(fetchBookQuestAction(bookedQuest));
   };
 
   const onDateClick = (value: string, name: string) => {
-    setFormData({...formData, time: value, day: name});
+    setFormData({...formData, time: value, date: name});
   };
 
   return (
@@ -135,6 +140,7 @@ function BookingForm({selectedPoint, peopleMinMax}: BookingFormProps): JSX.Eleme
         </label>
       </fieldset>
       <button
+        disabled={!isDirty || !isValid}
         className="btn btn--accent btn--cta booking-form__submit"
         type="submit"
       >

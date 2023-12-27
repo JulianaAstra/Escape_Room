@@ -1,14 +1,12 @@
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import { Helmet } from 'react-helmet-async';
-// import { AppRoute } from '../../const';
-// import {useParams, Navigate} from 'react-router-dom';
 import BookingForm from '../../components/booking-form/booking-form';
 import Map from '../../components/map/map';
 import {useState, useEffect} from 'react';
 import { Point } from '../../types/types';
 import { useAppSelector } from '../../hooks/use-app-selector/use-app-selector';
-// import LoadingScreen from '../loading-screen/loading-screen';
+import LoadingScreen from '../loading-screen/loading-screen';
 import Page404 from '../404-page/404-page';
 
 function BookingPage(): JSX.Element {
@@ -28,15 +26,17 @@ function BookingPage(): JSX.Element {
     }
   }, [selectedPointId]);
 
-  // const isDetailedQuestLoading = useAppSelector((state) => state.isDetailedQuestDataLoading);
-  // const isPageLoading = isDetailedQuestLoading;
+  const isDetailedQuestLoading = useAppSelector((state) => state.isDetailedQuestDataLoading);
+  const isBookingInfoLoading = useAppSelector((state) => state.isBookingInformationDataLoading);
+
+  const isPageLoading = isDetailedQuestLoading || isBookingInfoLoading;
   const isSomethingMissingFromServer = detailedQuest === null || bookingInfo === null;
 
-  // if (!isBookingInfoLoading) {
-  //   return (
-  //     <LoadingScreen />
-  //   );
-  // }
+  if (isPageLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   if (isSomethingMissingFromServer) {
     return (
@@ -44,7 +44,7 @@ function BookingPage(): JSX.Element {
     );
   }
 
-  const {title, previewImg, previewImgWebp, coverImg, coverImgWebp, peopleMinMax} = detailedQuest;
+  const {id, title, previewImg, previewImgWebp, coverImg, coverImgWebp, peopleMinMax} = detailedQuest;
 
   const handleMarkerClick = (point: string) => {
     setSelectedPointId(point);
@@ -91,7 +91,7 @@ function BookingPage(): JSX.Element {
               </p>
             </div>
           </div>
-          <BookingForm peopleMinMax={peopleMinMax} selectedPoint={selectedPoint}/>
+          <BookingForm questId={id} peopleMinMax={peopleMinMax} selectedPoint={selectedPoint}/>
         </div>
       </main>
       <Footer />

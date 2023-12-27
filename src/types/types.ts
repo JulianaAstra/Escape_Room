@@ -74,7 +74,7 @@ export type BookedQuest = {
   phone: string;
   withChildren: boolean;
   peopleCount: number;
-  id: string;
+  id: reservationId;
   location: Location;
   quest: BookedQuestDetailed;
 };
@@ -88,4 +88,9 @@ export type BookedQuestDetailed = {
   type: string;
   peopleMinMax: number[];
 };
+
+export type reservationId = {
+  reservId: string;
+};
+
 

@@ -7,8 +7,9 @@ import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { store } from '.';
 import { ThunkObjType } from '../types/thunk-object';
-// import { Reducer } from './middlewares/redirect';
-// import { Middleware } from '@reduxjs/toolkit';
+import { BookedQuestData } from '../types/booked-quest-data';
+import { ReservedQuestData } from '../types/booked-quest-data';
+import { reservationId } from '../types/types';
 
 export const clearErrorAction = createAsyncThunk('clearError', () => {
   setTimeout(() => store.dispatch(setError(null)), TIMEOUT_SHOW_ERROR,);
@@ -68,15 +69,13 @@ export const checkAuthAction = createAsyncThunk<void, undefined, ThunkObjType>(
   },
 );
 
-export const loginAction = createAsyncThunk<void, AuthData, ThunkObjType>('user/login', async ({email, password},
-  {dispatch, extra: api}) => {
+export const loginAction = createAsyncThunk<void, AuthData, ThunkObjType>('user/login', async ({email, password}, {dispatch, extra: api}) => {
   const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
   saveToken(token);
 
   dispatch(setAuthorization(AuthorizationStatus.Auth));
   dispatch(redirectToRoute(AppRoute.Root));
-},
-);
+},);
 
 export const logoutAction = createAsyncThunk<void, undefined, ThunkObjType>('user/logout', async (_arg, {dispatch, extra: api}) => {
   await api.delete(APIRoute.Logout);
@@ -86,4 +85,16 @@ export const logoutAction = createAsyncThunk<void, undefined, ThunkObjType>('use
   dispatch(redirectToRoute(AppRoute.Root));
 },);
 
+export const fetchBookQuestAction = createAsyncThunk<void, BookedQuestData, ThunkObjType>('user/bookQuest', async ({id, date, time, contactPerson, phone, withChildren, peopleCount, placeId}, {dispatch, extra: api}) => {
+  const url = id !== undefined ? `${APIRoute.Quests}/${id}/booking` : '';
+  await api.post<ReservedQuestData>(url, {date, time, contactPerson, phone, withChildren, peopleCount, placeId});
 
+  dispatch(redirectToRoute(AppRoute.MyQuests));
+},);
+
+export const deleteQuestAction = createAsyncThunk<void, reservationId, ThunkObjType>(
+  'user/deleteQuest', async ({reservId}, {dispatch, extra: api}) => {
+    const url = reservId !== undefined ? `${APIRoute.Reservation}/${reservId}` : '';
+    await api.delete(url);
+    dispatch(fetchBookedQuestsAction());
+  },);

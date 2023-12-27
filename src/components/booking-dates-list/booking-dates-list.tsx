@@ -1,4 +1,5 @@
 import { Time } from '../../types/types';
+import { MouseEvent } from 'react';
 
 type BookingDatesListProps = {
   slot: Time[] | null;
@@ -20,7 +21,7 @@ function BookingDatesList({slot, slotNameRu, slotNameEng, clickHandler}: Booking
         {slot !== null ? slot.map(({time, isAvailable}) => (
           <label key={time} className="custom-radio booking-form__date">
             <input
-              onClick={(evt: React.MouseEvent<HTMLInputElement>) => handleClick(evt.currentTarget.value, slotNameEng)}
+              onClick={(evt: MouseEvent<HTMLInputElement>) => handleClick(evt.currentTarget.value, slotNameEng)}
               type="radio"
               id={`${slotNameEng}${time.replace(/:/, 'h')}m`}
               name="date"

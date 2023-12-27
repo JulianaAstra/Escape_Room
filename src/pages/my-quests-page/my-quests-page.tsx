@@ -5,15 +5,32 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector/use-app-selector';
 import { useEffect } from 'react';
 import BookedCardsList from '../../components/booked-cards-list/booked-cards-list';
+import LoadingScreen from '../loading-screen/loading-screen';
+import Page404 from '../404-page/404-page';
 
 function MyQuestsPage(): JSX.Element {
   const dispatch = useAppDispatch();
+  const isBookedQuestsLoading = useAppSelector((state) => state.isBookedQuestsDataLoading);
 
   useEffect(() => {
     dispatch(fetchBookedQuestsAction());
   }, [dispatch]);
 
   const myQuests = useAppSelector((state) => state.bookedQuests);
+  const isSomethingMissingFromServer = myQuests === null;
+
+  if(isBookedQuestsLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
+  if(isSomethingMissingFromServer) {
+    return (
+      <Page404 />
+    );
+  }
+
 
   return (
     <div className="wrapper">

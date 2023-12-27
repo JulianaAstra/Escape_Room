@@ -1,5 +1,4 @@
 import BookedCard from '../booked-card/booked-card';
-// import { bookedQuests } from '../../mocks/booked-quests';
 import { BookedQuest } from '../../types/types';
 
 type BookedCardsListProps = {

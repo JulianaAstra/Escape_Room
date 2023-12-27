@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeFilterTheme, changeFilterDifficulty, getQuests, setAuthorization, setError, setQuestDataLoadingStatus, getDetailedQuest, setDetailedQuestDataLoadingStatus, setBookingInformationDataLoadingStatus, getBookingInformation, setBookedQuestsDataLoadingStatus, getBookedQuests } from './action';
+import { changeFilterTheme, changeFilterDifficulty, getQuests, setAuthorization, setError, setQuestDataLoadingStatus, getDetailedQuest, setDetailedQuestDataLoadingStatus, setBookingInformationDataLoadingStatus, getBookingInformation, setBookedQuestsDataLoadingStatus, getBookedQuests, setReservationId } from './action';
 import { Quest, DetailedQuest, BookedQuest } from '../types/types';
 import { AuthorizationStatus } from '../const';
 import { Point } from '../types/types';
@@ -17,6 +17,7 @@ export type InitilStateType = {
   bookingInfo: Point[] | null;
   bookedQuests: BookedQuest[] | null;
   error: string | null;
+  reservationId: string | null;
 }
 
 const initialState: InitilStateType = {
@@ -32,6 +33,7 @@ const initialState: InitilStateType = {
   isBookingInformationDataLoading: false,
   isBookedQuestsDataLoading: false,
   error: null,
+  reservationId: null,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -71,6 +73,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase(setReservationId, (state, action) => {
+      state.reservationId = action.payload;
     });
 });
 

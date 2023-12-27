@@ -28,3 +28,4 @@ export const setError = createAction<string | null>('setError');
 
 export const redirectToRoute = createAction<AppRoute>('redirectToRoute');
 
+export const setReservationId = createAction<string | null>('setReservationId');
