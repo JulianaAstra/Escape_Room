@@ -22,7 +22,6 @@ function QuestPage(): JSX.Element {
       return;
     }
     dispatch(fetchDetailedQuestAction({id: questId}));
-    // dispatch(fetchBookingInformationAction({id: questId}));
   }, [isIdExists, questId, dispatch]
   );
 

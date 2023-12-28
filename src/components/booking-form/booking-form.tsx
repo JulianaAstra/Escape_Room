@@ -33,6 +33,7 @@ function BookingForm({selectedPoint, peopleMinMax, questId}: BookingFormProps): 
   const [formData, setFormData] = useState({
     date: '',
     time: '',
+    isAgree: false,
   });
 
   const {register, handleSubmit, formState: { errors, isDirty, isValid }, getValues} = useForm<Inputs>({mode: 'onChange'});
@@ -140,7 +141,7 @@ function BookingForm({selectedPoint, peopleMinMax, questId}: BookingFormProps): 
         </label>
       </fieldset>
       <button
-        disabled={!isDirty || !isValid}
+        disabled={!isDirty || !isValid || !formData.isAgree}
         className="btn btn--accent btn--cta booking-form__submit"
         type="submit"
       >
@@ -148,6 +149,7 @@ function BookingForm({selectedPoint, peopleMinMax, questId}: BookingFormProps): 
       </button>
       <label className="custom-checkbox booking-form__checkbox booking-form__checkbox--agreement">
         <input
+          onChange={() => setFormData({...formData, isAgree: !formData.isAgree})}
           type="checkbox"
           id="id-order-agreement"
           name="user-agreement"
