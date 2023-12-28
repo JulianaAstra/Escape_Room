@@ -7,5 +7,4 @@ export type BookingInputs = {
 export type LoginInputs = {
   email: string;
   password: string;
-  // onSubmit: () => void;
 };

@@ -2,33 +2,41 @@ import 'leaflet/dist/leaflet.css';
 import {useRef, useEffect} from 'react';
 import useMap from '../../hooks/use-map/use-map';
 import {Icon, Marker, layerGroup} from 'leaflet';
-import { ADDRESS } from '../../const';
-import { URL_MARKER_CURRENT } from '../../const';
+import { AddressPoint } from '../../const';
+import { UrlMarker } from '../../const';
 
 function StaticMap(): JSX.Element {
 
   const mapRef = useRef(null);
-  const map = useMap(mapRef, ADDRESS);
+  const map = useMap(mapRef, AddressPoint);
 
   const defaultCustomIcon = new Icon({
-    iconUrl: URL_MARKER_CURRENT,
+    iconUrl: UrlMarker.UrlMarkerCurrent,
     iconSize: [23, 42],
     iconAnchor: [20, 40],
   });
 
   useEffect(() => {
-    if (map) {
-      const markerLayer = layerGroup().addTo(map);
-      const marker = new Marker({
-        lat: ADDRESS.lat,
-        lng: ADDRESS.lng
-      });
+    let isMounted = true;
 
-      marker.setIcon(
-        defaultCustomIcon
-      )
-        .addTo(markerLayer);
+    if (isMounted) {
+      if (map) {
+        const markerLayer = layerGroup().addTo(map);
+        const marker = new Marker({
+          lat: AddressPoint.lat,
+          lng: AddressPoint.lng
+        });
+
+        marker.setIcon(
+          defaultCustomIcon
+        )
+          .addTo(markerLayer);
+      }
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [map]);
 
   return (

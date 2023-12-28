@@ -6,7 +6,7 @@ import { loginAction } from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/use-app-dispatch/use-app-dispatch';
 import { useForm } from 'react-hook-form';
 import { LoginInputs } from '../../types/form';
-import { emailPattern, passwordPattern, RegisterName, FormValidationErrorMessage } from '../../const';
+import { EMAIL_PATTERN, PASSWORD_PATTERN, RegisterName, FormValidationErrorMessage } from '../../const';
 
 export const LoginPage = () => {
   const dispatch = useAppDispatch();
@@ -19,7 +19,7 @@ export const LoginPage = () => {
 
   const isNeedDisable = !formData.isAgree || !isDirty || !isValid;
 
-  const onSubmit = () => {
+  const submitHandler = () => {
     const {email, password} = getValues();
     dispatch(loginAction({email, password}));
   };
@@ -51,7 +51,7 @@ export const LoginPage = () => {
         <div className="container container--size-l">
           <div className="login__form">
             <form
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={handleSubmit(submitHandler)}
               className="login-form"
               action=""
               method="post"
@@ -68,11 +68,11 @@ export const LoginPage = () => {
                       id="email"
                       placeholder="Адрес электронной почты"
                       required
-                      {...register(RegisterName.EMAIL, { required: true, pattern: emailPattern })}
+                      {...register(RegisterName.Email, { required: true, pattern: EMAIL_PATTERN })}
                       aria-invalid={errors.email ? 'true' : 'false'}
                     />
-                    {errors.email?.type === 'required' && <><br/><span role="alert">{FormValidationErrorMessage.INVALID_EMAIL}</span></>}
-                    {errors.email?.type === 'pattern' && <><br/><span role="alert">{FormValidationErrorMessage.INVALID_EMAIL_FORMAT}</span></>}
+                    {errors.email?.type === 'required' && <><br/><span role="alert">{FormValidationErrorMessage.InvalidEmail}</span></>}
+                    {errors.email?.type === 'pattern' && <><br/><span role="alert">{FormValidationErrorMessage.InvalidEmailFormat}</span></>}
                   </div>
                   <div className="custom-input login-form__input">
                     <label className="custom-input__label" htmlFor="password">
@@ -83,12 +83,12 @@ export const LoginPage = () => {
                       id="password"
                       placeholder="Пароль"
                       required
-                      {...register(RegisterName.PASSWORD, { required: true, minLength: 3, maxLength: 15, pattern: passwordPattern})}
+                      {...register(RegisterName.Password, { required: true, minLength: 3, maxLength: 15, pattern: PASSWORD_PATTERN})}
                       aria-invalid={errors.password ? 'true' : 'false'}
                     />
-                    {errors.password?.type === 'required' && <><br/><span role="alert">{FormValidationErrorMessage.INVALID_PASSWORD}</span></>}
-                    {errors.password?.type === 'pattern' && <><br/><span role="alert">{FormValidationErrorMessage.INVALID_PASSWORD_FORMAT}</span></>}
-                    {(errors.password?.type === 'maxLength' || errors.password?.type === 'minLength') && <><br/><span role="alert">{FormValidationErrorMessage.INVALID_PASSWORD_LENGTH}</span></>}
+                    {errors.password?.type === 'required' && <><br/><span role="alert">{FormValidationErrorMessage.InvalidPassword}</span></>}
+                    {errors.password?.type === 'pattern' && <><br/><span role="alert">{FormValidationErrorMessage.InvalidPasswordFormat}</span></>}
+                    {(errors.password?.type === 'maxLength' || errors.password?.type === 'minLength') && <><br/><span role="alert">{FormValidationErrorMessage.InvalidPasswordLength}</span></>}
                   </div>
                 </div>
                 <button

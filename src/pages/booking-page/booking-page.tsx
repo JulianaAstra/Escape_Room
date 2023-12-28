@@ -8,10 +8,11 @@ import { Point } from '../../types/types';
 import { useAppSelector } from '../../hooks/use-app-selector/use-app-selector';
 import LoadingScreen from '../loading-screen/loading-screen';
 import Page404 from '../404-page/404-page';
+import { getDetailedQuest, getBookingInfo, getBookingInfoLoadingStatus, getDetailedQuestDataLoadingStatus } from '../../store/app-data/selectors';
 
 function BookingPage(): JSX.Element {
-  const detailedQuest = useAppSelector((state) => state.detailedQuest);
-  const bookingInfo = useAppSelector((state) => state.bookingInfo);
+  const detailedQuest = useAppSelector(getDetailedQuest);
+  const bookingInfo = useAppSelector(getBookingInfo);
   const firstPoint: Point | null = bookingInfo !== null ? bookingInfo[0] : null;
 
   const [selectedPoint, setSelectedPoint] = useState<Point | null>(firstPoint);
@@ -20,14 +21,21 @@ function BookingPage(): JSX.Element {
   const [selectedPointId, setSelectedPointId] = useState<string | null>(selectedPointID);
 
   useEffect(() => {
-    if (bookingInfo !== null) {
-      const currentAddress: Point | null = bookingInfo.find((elem) => elem.id === selectedPointId);
-      setSelectedPoint(currentAddress);
+    let isMounted = true;
+
+    if (isMounted) {
+      if (bookingInfo !== null) {
+        const currentAddress: Point | null = bookingInfo.find((elem) => elem.id === selectedPointId);
+        setSelectedPoint(currentAddress);
+      }
     }
+    return () => {
+      isMounted = false;
+    };
   }, [selectedPointId]);
 
-  const isDetailedQuestLoading = useAppSelector((state) => state.isDetailedQuestDataLoading);
-  const isBookingInfoLoading = useAppSelector((state) => state.isBookingInformationDataLoading);
+  const isDetailedQuestLoading = useAppSelector(getDetailedQuestDataLoadingStatus);
+  const isBookingInfoLoading = useAppSelector(getBookingInfoLoadingStatus);
 
   const isPageLoading = isDetailedQuestLoading || isBookingInfoLoading;
   const isSomethingMissingFromServer = detailedQuest === null || bookingInfo === null;

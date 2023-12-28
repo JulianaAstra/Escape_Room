@@ -1,6 +1,6 @@
 import { BookedQuest } from '../../types/types';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, Level } from '../../const';
 import { deleteQuestAction } from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/use-app-dispatch/use-app-dispatch';
 
@@ -27,7 +27,7 @@ function BookedCard({bookedQuest}: BookedCardProps): JSX.Element {
   const reservId = bookedQuest.id;
   const {id, title, level, previewImg, previewImgWebp} = quest;
 
-  const deleteBtnClickHandler = (evt: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDeleteBtnClick = (evt: React.MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
     dispatch(deleteQuestAction({reservId}));
   };
@@ -55,7 +55,7 @@ function BookedCard({bookedQuest}: BookedCardProps): JSX.Element {
             {title}
           </Link>
           <span className="quest-card__info">
-            {`[${date},${time}.${location.address}]`}
+            {`[${date === 'today' ? 'сегодня' : 'завтра'},${time}.${location.address}]`}
           </span>
         </div>
         <ul className="tags quest-card__tags">
@@ -69,11 +69,13 @@ function BookedCard({bookedQuest}: BookedCardProps): JSX.Element {
             <svg width={14} height={14} aria-hidden="true">
               <use xlinkHref="#icon-level" />
             </svg>
-            {level}
+            {level === Level.Easy && 'легко'}
+            {level === Level.Medium && 'средне'}
+            {level === Level.Hard && 'сложно'}
           </li>
         </ul>
         <button
-          onClick={deleteBtnClickHandler}
+          onClick={handleDeleteBtnClick}
           className="btn btn--accent btn--secondary quest-card__btn"
           type="button"
         >

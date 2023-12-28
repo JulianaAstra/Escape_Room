@@ -8,7 +8,7 @@ import { fetchBookQuestAction } from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/use-app-dispatch/use-app-dispatch';
 import { BookedQuestData } from '../../types/booked-quest-data';
 import { BookingInputs } from '../../types/form';
-import { userNamePattern, userTelPattern, RegisterName, FormValidationErrorMessage } from '../../const';
+import { USER_NAME_PATTERN, USER_PHONE_PATTERN, RegisterName, FormValidationErrorMessage } from '../../const';
 
 type BookingFormProps = {
   selectedPoint: Point | null;
@@ -36,11 +36,11 @@ function BookingForm({selectedPoint, peopleMinMax, questId}: BookingFormProps): 
 
   const dispatch = useAppDispatch();
 
-  const onSubmit = () => {
+  const submitHandler = () => {
     const {persons, userName, userTel} = getValues();
 
     const id = questId;
-    const withChildren = childrenRef.current.checked;
+    const withChildren = childrenRef.current?.checked;
 
     const bookedQuest: BookedQuestData = {
       contactPerson: userName,
@@ -56,21 +56,21 @@ function BookingForm({selectedPoint, peopleMinMax, questId}: BookingFormProps): 
     dispatch(fetchBookQuestAction(bookedQuest));
   };
 
-  const onDateClick = (value: string, name: string) => {
+  const dateClickHandler = (value: string, name: string) => {
     setFormData({...formData, time: value, date: name});
   };
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(submitHandler)}
       className="booking-form"
       action="https://echo.htmlacademy.ru/"
       method="post"
     >
       <fieldset className="booking-form__section">
         <legend className="visually-hidden">Выбор даты и времени</legend>
-        <BookingDatesList clickHandler={onDateClick} slotNameEng={SlotNameEng.tod} slotNameRu={SlotName.today} slot={today}/>
-        <BookingDatesList clickHandler={onDateClick} slotNameEng={SlotNameEng.tom} slotNameRu={SlotName.tomorrow} slot={tomorrow}/>
+        <BookingDatesList handleDateClick={dateClickHandler} slotNameEng={SlotNameEng.tod} slotNameRu={SlotName.today} slot={today}/>
+        <BookingDatesList handleDateClick={dateClickHandler} slotNameEng={SlotNameEng.tom} slotNameRu={SlotName.tomorrow} slot={tomorrow}/>
       </fieldset>
       <fieldset className="booking-form__section">
         <legend className="visually-hidden">Контактная информация</legend>
@@ -82,12 +82,12 @@ function BookingForm({selectedPoint, peopleMinMax, questId}: BookingFormProps): 
             type="text"
             id="name"
             placeholder="Имя"
-            {...register(RegisterName.USER_NAME, { required: true, maxLength: 15, pattern: userNamePattern })}
+            {...register(RegisterName.UserName, { required: true, maxLength: 15, pattern: USER_NAME_PATTERN })}
             aria-invalid={errors.userName ? 'true' : 'false'}
           />
-          {errors.userName?.type === 'required' && <><br/><span role="alert">{FormValidationErrorMessage.INVALID_NAME}</span></>}
-          {errors.userName?.type === 'maxLength' && <><br/><span role="alert">{FormValidationErrorMessage.IMVALID_NAME_LENGTH}</span></>}
-          {errors.userName?.type === 'pattern' && <><br/><span role="alert">{FormValidationErrorMessage.INVALID_NAME_SYMBOLS}</span></>}
+          {errors.userName?.type === 'required' && <><br/><span role="alert">{FormValidationErrorMessage.InvalidName}</span></>}
+          {errors.userName?.type === 'maxLength' && <><br/><span role="alert">{FormValidationErrorMessage.InvalidNameLength}</span></>}
+          {errors.userName?.type === 'pattern' && <><br/><span role="alert">{FormValidationErrorMessage.InvalidNameSymbols}</span></>}
         </div>
         <div className="custom-input booking-form__input">
           <label className="custom-input__label" htmlFor="tel">
@@ -97,11 +97,11 @@ function BookingForm({selectedPoint, peopleMinMax, questId}: BookingFormProps): 
             type="tel"
             id="tel"
             placeholder="Телефон"
-            {...register(RegisterName.USER_TEL, { required: true, pattern: userTelPattern })}
+            {...register(RegisterName.UserPhone, { required: true, pattern: USER_PHONE_PATTERN })}
             aria-invalid={errors.userTel ? 'true' : 'false'}
           />
-          {errors.userTel?.type === 'pattern' && <><br/><span role="alert">{FormValidationErrorMessage.INVALID_PHONE_FORMAT}</span></>}
-          {errors.userTel?.type === 'required' && <><br/><span role="alert">{FormValidationErrorMessage.INVALID_PHONE}</span></>}
+          {errors.userTel?.type === 'pattern' && <><br/><span role="alert">{FormValidationErrorMessage.InvalidPhoneFormat}</span></>}
+          {errors.userTel?.type === 'required' && <><br/><span role="alert">{FormValidationErrorMessage.InvalidPhone}</span></>}
         </div>
         <div className="custom-input booking-form__input">
           <label className="custom-input__label" htmlFor="person">
@@ -111,12 +111,12 @@ function BookingForm({selectedPoint, peopleMinMax, questId}: BookingFormProps): 
             type="number"
             id="person"
             placeholder="Количество участников"
-            {...register(RegisterName.PERSONS, { required: true, min: min, max: max })}
+            {...register(RegisterName.Persons, { required: true, min: min, max: max })}
             aria-invalid={errors.persons ? 'true' : 'false'}
           />
-          {errors.persons?.type === 'required' && <><br/><span role="alert">{FormValidationErrorMessage.INVALID_PERSONS}</span></>}
-          {errors.persons?.type === 'min' && <><br/><span role="alert">{FormValidationErrorMessage.INVALID_PERSONS_COUNT}от {min} до {max}</span></>}
-          {errors.persons?.type === 'max' && <><br/><span role="alert">{FormValidationErrorMessage.INVALID_PERSONS_COUNT}от {min} до {max}</span></>}
+          {errors.persons?.type === 'required' && <><br/><span role="alert">{FormValidationErrorMessage.InvalidPersons}</span></>}
+          {errors.persons?.type === 'min' && <><br/><span role="alert">{FormValidationErrorMessage.InvalidPersonsCount}от {min} до {max}</span></>}
+          {errors.persons?.type === 'max' && <><br/><span role="alert">{FormValidationErrorMessage.InvalidPersonsCount}от {min} до {max}</span></>}
         </div>
         <label className="custom-checkbox booking-form__checkbox booking-form__checkbox--children">
           <input

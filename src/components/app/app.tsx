@@ -1,4 +1,4 @@
-import MainPage from '../../pages/main-page/main-page';
+import { MainPage } from '../../pages/main-page/main-page';
 import { Route, Routes } from 'react-router-dom';
 import Page404 from '../../pages/404-page/404-page';
 import BookingPage from '../../pages/booking-page/booking-page';
@@ -14,13 +14,32 @@ import { useAppSelector } from '../../hooks/use-app-selector/use-app-selector';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
+import { getAuthorizationStatus, getAuthCheckedStatus } from '../../store/user-process/selectors';
+import { getQuestDataLoadingStatus } from '../../store/app-data/selectors';
+import { fetchQuestAction, checkAuthAction } from '../../store/api-actions';
+import { useAppDispatch } from '../../hooks/use-app-dispatch/use-app-dispatch';
+import { useEffect } from 'react';
 
 function App (): JSX.Element {
+  const dispatch = useAppDispatch();
 
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isQuestsDataLoading = useAppSelector((state) => state.isQuestDataLoading);
+  useEffect(() => {
+    let isMounted = true;
+    if (isMounted) {
+      dispatch(fetchQuestAction());
+      dispatch(checkAuthAction());
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [dispatch]);
 
-  if (authorizationStatus === AuthorizationStatus.Unknown || isQuestsDataLoading) {
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isAuthChecked = useAppSelector(getAuthCheckedStatus);
+
+  const isQuestsDataLoading = useAppSelector(getQuestDataLoadingStatus);
+
+  if (isQuestsDataLoading || !isAuthChecked) {
     return (
       <LoadingScreen />
     );

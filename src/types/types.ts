@@ -15,7 +15,7 @@ export type Time = {
 }
 
 export type Slots = {
-  today:Time[];
+  today: Time[];
   tomorrow: Time[];
 }
 

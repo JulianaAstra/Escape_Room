@@ -7,16 +7,25 @@ import { useEffect } from 'react';
 import BookedCardsList from '../../components/booked-cards-list/booked-cards-list';
 import LoadingScreen from '../loading-screen/loading-screen';
 import Page404 from '../404-page/404-page';
+import { getBookedQuestsDataLoadingStatus, getBookedQuests } from '../../store/user-data/selectors';
 
 function MyQuestsPage(): JSX.Element {
   const dispatch = useAppDispatch();
-  const isBookedQuestsLoading = useAppSelector((state) => state.isBookedQuestsDataLoading);
+  const isBookedQuestsLoading = useAppSelector(getBookedQuestsDataLoadingStatus);
 
   useEffect(() => {
-    dispatch(fetchBookedQuestsAction());
+    let isMounted = true;
+
+    if (isMounted) {
+      dispatch(fetchBookedQuestsAction());
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, [dispatch]);
 
-  const myQuests = useAppSelector((state) => state.bookedQuests);
+  const myQuests = useAppSelector(getBookedQuests);
   const isSomethingMissingFromServer = myQuests === null;
 
   if(isBookedQuestsLoading) {
@@ -30,7 +39,6 @@ function MyQuestsPage(): JSX.Element {
       <Page404 />
     );
   }
-
 
   return (
     <div className="wrapper">

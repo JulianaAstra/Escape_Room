@@ -1,16 +1,16 @@
 import { AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks/use-app-selector/use-app-selector';
 import { MouseEvent } from 'react';
-// import { changeAuthorisationStatus } from '../../store/action';
 import { useAppDispatch } from '../../hooks/use-app-dispatch/use-app-dispatch';
 import { AppRoute } from '../../const';
 import { Link } from 'react-router-dom';
 import { logoutAction } from '../../store/api-actions';
 import { redirectToRoute } from '../../store/action';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 function HeaderBtn(): JSX.Element {
 
-  const authorizationStatus: AuthorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus: AuthorizationStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
 
   const handleBtnClick = (evt: MouseEvent<HTMLElement>) => {
@@ -22,6 +22,9 @@ function HeaderBtn(): JSX.Element {
       case AuthorizationStatus.NoAuth:
         dispatch(redirectToRoute(AppRoute.Login));
         break;
+      case AuthorizationStatus.Unknown:
+        dispatch(redirectToRoute(AppRoute.Login));
+        break;
     }
   };
 
@@ -31,7 +34,8 @@ function HeaderBtn(): JSX.Element {
 
       {window.location.pathname !== AppRoute.Login &&
         <Link data-status={authorizationStatus} onClick={handleBtnClick} className="btn btn--accent header__side-item" to='/'>
-          {authorizationStatus === AuthorizationStatus.Auth ? 'Выйти' : 'Войти'}
+          {authorizationStatus === AuthorizationStatus.Auth && 'Выйти'}
+          {(authorizationStatus === AuthorizationStatus.NoAuth || authorizationStatus === AuthorizationStatus.Unknown) && 'Войти'}
         </Link>}
 
       <a

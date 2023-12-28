@@ -7,26 +7,33 @@ function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: City): Map |
   const isRenderedRef = useRef<boolean>(false);
 
   useEffect(() => {
-    if (mapRef.current !== null && !isRenderedRef.current) {
-      const instance = new Map(mapRef.current, {
-        center: {
-          lat: city.lat,
-          lng: city.lng,
-        },
-        zoom: 10,
-      });
+    let isMounted = true;
 
-      const layer = new TileLayer(
-        'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-        {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-        },
-      );
-      instance.addLayer(layer);
+    if (isMounted) {
+      if (mapRef.current !== null && !isRenderedRef.current) {
+        const instance = new Map(mapRef.current, {
+          center: {
+            lat: city.lat,
+            lng: city.lng,
+          },
+          zoom: 10,
+        });
 
-      setMap(instance);
-      isRenderedRef.current = true;
+        const layer = new TileLayer(
+          'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+          {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+          },
+        );
+        instance.addLayer(layer);
+
+        setMap(instance);
+        isRenderedRef.current = true;
+      }
     }
+    return () => {
+      isMounted = false;
+    };
   }, [mapRef, city]);
 
   return map;

@@ -1,5 +1,15 @@
 import { City, Address, GenreFilter, DifficultyFilter } from './types/types';
 
+export const TIMEOUT_SHOW_ERROR = 2000;
+
+export const EMAIL_PATTERN = /^[\w.]+@([\w-]+\.)+[\w-]{1,}$/;
+
+export const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*\d).{3,}/;
+
+export const USER_NAME_PATTERN = /^[А-Яа-яЁёA-Za-z'-]*$/;
+
+export const USER_PHONE_PATTERN = /^\+7\(\d{3}\)\d{3}-\d{2}-\d{2}$/;
+
 export enum AppRoute {
   Root = '/',
   Booking = '/booking',
@@ -18,9 +28,9 @@ export enum APIRoute {
 }
 
 export enum AuthorizationStatus {
-  Auth = 'auth',
-  NoAuth = 'no_auth',
-  Unknown = 'unknown'
+  Auth = 'Auth',
+  NoAuth = 'No_auth',
+  Unknown = 'Unknown'
 }
 
 export enum SlotName {
@@ -33,21 +43,22 @@ export enum SlotNameEng {
   tom = 'tomorrow'
 }
 
-export const CITY: City = {
+export const CityPoint: City = {
   title: 'Санкт-Петербург',
   lat: 59.9386300,
   lng: 30.3141300
 };
 
-export const ADDRESS: Address = {
+export const AddressPoint: Address = {
   title: 'Санкт-Петербург, Набережная реки Карповка, д 5П',
   lat: 59.96832096011186,
   lng: 30.31738657435266
 };
 
-export const URL_MARKER_DEFAULT = '/markup/img/svg/pin-default.svg';
-
-export const URL_MARKER_CURRENT = '/markup/img/svg/pin-active.svg';
+export enum UrlMarker {
+  UrlMarkerDefault = '../public/img/svg/pin-default.svg',
+  UrlMarkerCurrent = '../public/img/svg/pin-active.svg',
+}
 
 export const DifficultyFilters: DifficultyFilter[] = [
   {
@@ -69,11 +80,11 @@ export const DifficultyFilters: DifficultyFilter[] = [
 ];
 
 export enum Filters {
-  theme = 'Тематика',
-  difficulty = 'Сложность'
+  Theme = 'Тематика',
+  Difficulty = 'Сложность'
 }
 
-export const GenrereFilters: GenreFilter[] = [
+export const GenreFilters: GenreFilter[] = [
   {
     type: 'all',
     name: 'Все квесты',
@@ -118,35 +129,38 @@ export const GenrereFilters: GenreFilter[] = [
   }
 ];
 
-export const TIMEOUT_SHOW_ERROR = 2000;
-
-export const emailPattern = /^[\w.]+@([\w-]+\.)+[\w-]{1,}$/;
-
-export const passwordPattern = /^(?=.*[a-z])(?=.*\d).{3,}/;
-
-export const userNamePattern = /^[А-Яа-яЁёA-Za-z'-]*$/;
-
-export const userTelPattern = /^\+7\(\d{3}\)\d{3}-\d{2}-\d{2}$/;
-
 export enum RegisterName {
-  USER_NAME = 'userName',
-  USER_TEL = 'userTel',
-  PERSONS = 'persons',
-  EMAIL = 'email',
-  PASSWORD = 'password'
+  UserName = 'userName',
+  UserPhone = 'userTel',
+  Persons = 'persons',
+  Email = 'email',
+  Password = 'password'
 }
 
 export enum FormValidationErrorMessage {
-  INVALID_NAME = 'Укажите имя',
-  IMVALID_NAME_LENGTH = 'Имя должно быть от 1 до 15 символов',
-  INVALID_NAME_SYMBOLS = 'Имя может содержать только буквы А-Я, а-я, A-Z, a-z и символ -',
-  INVALID_PHONE_FORMAT = 'Телефон должен быть введен в формате +7(000)000-00-00',
-  INVALID_PHONE = 'Введите номер телефона',
-  INVALID_PERSONS = 'Укажите количество участников',
-  INVALID_PERSONS_COUNT = 'Возможное количество участников: ',
-  INVALID_EMAIL = 'Укажите email',
-  INVALID_EMAIL_FORMAT = 'Email должен быть вида name@domen.ru',
-  INVALID_PASSWORD = 'Придумайте пароль',
-  INVALID_PASSWORD_FORMAT = 'Пароль должен состоять минимум из одной буквы и цифры',
-  INVALID_PASSWORD_LENGTH = 'Пароль может содержать oт 3 до 15 символов'
+  InvalidName = 'Укажите имя',
+  InvalidNameLength = 'Имя должно быть от 1 до 15 символов',
+  InvalidNameSymbols = 'Имя может содержать только буквы А-Я, а-я, A-Z, a-z и символ -',
+  InvalidPhoneFormat = 'Телефон должен быть введен в формате +7(000)000-00-00',
+  InvalidPhone = 'Введите номер телефона',
+  InvalidPersons = 'Укажите количество участников',
+  InvalidPersonsCount = 'Возможное количество участников: ',
+  InvalidEmail = 'Укажите email',
+  InvalidEmailFormat = 'Email должен быть вида name@domen.ru',
+  InvalidPassword = 'Придумайте пароль',
+  InvalidPasswordFormat = 'Пароль должен состоять минимум из одной буквы и цифры',
+  InvalidPasswordLength = 'Пароль может содержать oт 3 до 15 символов'
+}
+
+export const NameSpace = {
+  AppData: 'APP_DATA',
+  UserData: 'USER_DATA',
+  UserProcess: 'USER_PROCESS',
+  AppProcess: 'APP_POCESS',
+} as const;
+
+export enum Level {
+  Easy = 'easy',
+  Medium = 'medium',
+  Hard = 'hard',
 }

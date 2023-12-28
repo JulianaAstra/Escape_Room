@@ -2,32 +2,41 @@ import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import { Helmet } from 'react-helmet-async';
 import { useParams, Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, Level } from '../../const';
 import { useAppSelector } from '../../hooks/use-app-selector/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch/use-app-dispatch';
 import { fetchDetailedQuestAction } from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
 import Page404 from '../404-page/404-page';
 import { useEffect } from 'react';
+import { getQuests, getQuestDataLoadingStatus, getDetailedQuest, getDetailedQuestDataLoadingStatus } from '../../store/app-data/selectors';
 
 function QuestPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const questId = useParams().id as string;
-  const quests = useAppSelector((state) => state.quests);
-  const isQuestsLoading = useAppSelector((state) => state.isQuestDataLoading);
+  const quests = useAppSelector(getQuests);
+  const isQuestsLoading = useAppSelector(getQuestDataLoadingStatus);
   const isIdExists = quests?.some((quest) => quest.id === questId);
 
   useEffect(() => {
-    if (!isIdExists) {
-      return;
+    let isMounted = true;
+
+    if (isMounted) {
+      if (!isIdExists) {
+        return;
+      }
+      dispatch(fetchDetailedQuestAction({id: questId}));
     }
-    dispatch(fetchDetailedQuestAction({id: questId}));
+
+    return () => {
+      isMounted = false;
+    };
   }, [isIdExists, questId, dispatch]
   );
 
-  const quest = useAppSelector((state) => state.detailedQuest);
+  const quest = useAppSelector(getDetailedQuest);
 
-  const isDetailedQuestLoading = useAppSelector((state) => state.isDetailedQuestDataLoading);
+  const isDetailedQuestLoading = useAppSelector(getDetailedQuestDataLoadingStatus);
   const isPageLoading = isDetailedQuestLoading;
   const isSomethingMissingFromServer = quest === null || quests === null;
 
@@ -86,7 +95,9 @@ function QuestPage(): JSX.Element {
                 <svg width={14} height={14} aria-hidden="true">
                   <use xlinkHref="#icon-level" />
                 </svg>
-                {level}
+                {level === Level.Easy && 'легко'}
+                {level === Level.Medium && 'средне'}
+                {level === Level.Hard && 'сложно'}
               </li>
             </ul>
             <p className="quest-page__description">

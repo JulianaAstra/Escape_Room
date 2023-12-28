@@ -1,7 +1,7 @@
-// import { Quest } from '../../mocks/quests';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, Level } from '../../const';
 import { Quest } from '../../types/types';
+import { memo } from 'react';
 
 type CardProps = {
   quest: Quest;
@@ -20,7 +20,7 @@ function changeImgSrc(src: string): string {
 
 }
 
-function Card({quest}: CardProps): JSX.Element {
+function CardComponent({quest}: CardProps): JSX.Element {
   const {id, title, previewImg, previewImgWebp, level, peopleMinMax} = quest;
 
   return (
@@ -57,7 +57,9 @@ function Card({quest}: CardProps): JSX.Element {
             <svg width={14} height={14} aria-hidden="true">
               <use xlinkHref="#icon-level" />
             </svg>
-            {level}
+            {level === Level.Easy && 'легко'}
+            {level === Level.Medium && 'средне'}
+            {level === Level.Hard && 'сложно'}
           </li>
         </ul>
       </div>
@@ -65,4 +67,4 @@ function Card({quest}: CardProps): JSX.Element {
   );
 }
 
-export default Card;
+export const Card = memo(CardComponent);

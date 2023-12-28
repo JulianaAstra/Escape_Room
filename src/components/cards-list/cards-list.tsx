@@ -1,12 +1,12 @@
-import Card from '../card/card';
+import { Card } from '../card/card';
 import { Quest } from '../../types/types';
-// import { Quest } from '../../mocks/quests';
+import { memo } from 'react';
 
 type CardsListProps = {
   quests: Quest[];
 }
 
-function CardsList({quests}: CardsListProps): JSX.Element {
+function CardsListComponent({quests}: CardsListProps): JSX.Element {
   return (
     <div className="cards-grid">
       {quests.map((quest) => <Card key={quest.id} quest={quest} />)}
@@ -14,4 +14,4 @@ function CardsList({quests}: CardsListProps): JSX.Element {
   );
 }
 
-export default CardsList;
+export const CardsList = memo(CardsListComponent);

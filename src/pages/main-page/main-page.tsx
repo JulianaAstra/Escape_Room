@@ -1,21 +1,24 @@
-import CardsList from '../../components/cards-list/cards-list';
+import { CardsList } from '../../components/cards-list/cards-list';
 import { Quest } from '../../types/types';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import { Helmet } from 'react-helmet-async';
 import FiltersForm from '../../components/filters-form/filters-form';
 import { useAppSelector } from '../../hooks/use-app-selector/use-app-selector';
-import { AuthorizationStatus } from '../../const';
 import LoadingScreen from '../loading-screen/loading-screen';
+import { getQuestDataLoadingStatus, getQuests } from '../../store/app-data/selectors';
+import { setActiveFilterTheme, setActiveFilterDifficulty } from '../../store/app-process/selectors';
+import { memo } from 'react';
 
-function MainPage(): JSX.Element {
-  const activeFilterTheme = useAppSelector((state) => state.activeFilterTheme);
-  const activeFilterDifficulty = useAppSelector((state) => state.activeFilterDifficulty);
-  const authStatus = useAppSelector((state) => state.authorizationStatus);
-  const isQuestsLoading = useAppSelector((state) => state.isQuestDataLoading);
-  const quests: Quest[] | null = useAppSelector((state) => state.quests);
+function MainPageComponent(): JSX.Element {
+  const activeFilterTheme = useAppSelector(setActiveFilterTheme);
+  const activeFilterDifficulty = useAppSelector(setActiveFilterDifficulty);
 
-  if (isQuestsLoading || authStatus === AuthorizationStatus.Unknown || quests === null) {
+  const isQuestsLoading = useAppSelector(getQuestDataLoadingStatus);
+
+  const quests: Quest[] | null = useAppSelector(getQuests);
+
+  if (isQuestsLoading || quests === null) {
     return (
       <LoadingScreen />
     );
@@ -63,4 +66,4 @@ function MainPage(): JSX.Element {
   );
 }
 
-export default MainPage;
+export const MainPage = memo(MainPageComponent);

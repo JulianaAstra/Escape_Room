@@ -5,13 +5,13 @@ type BookingDatesListProps = {
   slot: Time[] | null;
   slotNameRu: string;
   slotNameEng: string;
-  clickHandler: (value: string, name: string) => void;
+  handleDateClick: (value: string, name: string) => void;
 }
 
-function BookingDatesList({slot, slotNameRu, slotNameEng, clickHandler}: BookingDatesListProps): JSX.Element {
+function BookingDatesList({slot, slotNameRu, slotNameEng, handleDateClick}: BookingDatesListProps): JSX.Element {
 
   const handleClick = (value: string, name: string) => {
-    clickHandler(value, name);
+    handleDateClick(value, name);
   };
 
   return (

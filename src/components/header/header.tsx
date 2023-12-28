@@ -5,9 +5,10 @@ import LogoLink from '../logo/logo-link';
 import LogoSpan from '../logo/logo-span';
 import { useAppSelector } from '../../hooks/use-app-selector/use-app-selector';
 import { AuthorizationStatus } from '../../const';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 function Header(): JSX.Element {
-  const authorizationStatus: AuthorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus: AuthorizationStatus = useAppSelector(getAuthorizationStatus);
 
   return (
     <header className="header">
@@ -25,7 +26,7 @@ function Header(): JSX.Element {
               Контакты
               </NavLink>
             </li>
-            {authorizationStatus === AuthorizationStatus.NoAuth ? '' :
+            {authorizationStatus !== AuthorizationStatus.Auth ? '' :
               <li className="main-nav__item">
                 <NavLink className={({ isActive }) => (isActive ? 'link active' : 'link')} to={AppRoute.MyQuests}>
               Мои бронирования
