@@ -1,35 +1,27 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import { Helmet } from 'react-helmet-async';
-import { FormEvent, useState, ChangeEvent } from 'react';
+import { useState } from 'react';
 import { loginAction } from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/use-app-dispatch/use-app-dispatch';
+import { useForm } from 'react-hook-form';
+import { LoginInputs } from '../../types/form';
+import { emailPattern, passwordPattern, RegisterName, FormValidationErrorMessage } from '../../const';
 
 export const LoginPage = () => {
   const dispatch = useAppDispatch();
 
-  const [authInfo, setAuthInfo] = useState({
-    email: '',
-    password: '',
+  const [formData, setFormData] = useState({
+    isAgree: false,
   });
 
-  const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9]+$/;
-  const isValidPassword = passwordRegex.test(authInfo.password);
-  const isNeedDisable = !authInfo.email || !isValidPassword;
+  const {register, handleSubmit, formState: { errors, isDirty, isValid }, getValues} = useForm<LoginInputs>({mode: 'onChange'});
 
-  const handleEmailChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    setAuthInfo({...authInfo, email: evt.target.value});
-  };
+  const isNeedDisable = !formData.isAgree || !isDirty || !isValid;
 
-  const handlePasswordChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    setAuthInfo({...authInfo, password: evt.target.value});
-  };
-
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
-    dispatch(loginAction({
-      email: authInfo.email,
-      password: authInfo.password}));
+  const onSubmit = () => {
+    const {email, password} = getValues();
+    dispatch(loginAction({email, password}));
   };
 
   return (
@@ -59,7 +51,7 @@ export const LoginPage = () => {
         <div className="container container--size-l">
           <div className="login__form">
             <form
-              onSubmit={handleSubmit}
+              onSubmit={handleSubmit(onSubmit)}
               className="login-form"
               action=""
               method="post"
@@ -72,28 +64,31 @@ export const LoginPage = () => {
                   E&nbsp;–&nbsp;mail
                     </label>
                     <input
-                      value={authInfo.email}
-                      onChange={handleEmailChange}
                       type="email"
                       id="email"
-                      name="email"
                       placeholder="Адрес электронной почты"
                       required
+                      {...register(RegisterName.EMAIL, { required: true, pattern: emailPattern })}
+                      aria-invalid={errors.email ? 'true' : 'false'}
                     />
+                    {errors.email?.type === 'required' && <><br/><span role="alert">{FormValidationErrorMessage.INVALID_EMAIL}</span></>}
+                    {errors.email?.type === 'pattern' && <><br/><span role="alert">{FormValidationErrorMessage.INVALID_EMAIL_FORMAT}</span></>}
                   </div>
                   <div className="custom-input login-form__input">
                     <label className="custom-input__label" htmlFor="password">
                   Пароль
                     </label>
                     <input
-                      value={authInfo.password}
-                      onChange={handlePasswordChange}
                       type="password"
                       id="password"
-                      name="password"
                       placeholder="Пароль"
                       required
+                      {...register(RegisterName.PASSWORD, { required: true, minLength: 3, maxLength: 15, pattern: passwordPattern})}
+                      aria-invalid={errors.password ? 'true' : 'false'}
                     />
+                    {errors.password?.type === 'required' && <><br/><span role="alert">{FormValidationErrorMessage.INVALID_PASSWORD}</span></>}
+                    {errors.password?.type === 'pattern' && <><br/><span role="alert">{FormValidationErrorMessage.INVALID_PASSWORD_FORMAT}</span></>}
+                    {(errors.password?.type === 'maxLength' || errors.password?.type === 'minLength') && <><br/><span role="alert">{FormValidationErrorMessage.INVALID_PASSWORD_LENGTH}</span></>}
                   </div>
                 </div>
                 <button
@@ -103,14 +98,10 @@ export const LoginPage = () => {
                 >
               Войти
                 </button>
-                {isNeedDisable && (
-                  <p style={{color: 'red'}}>
-                    Password must contain at one number and one letter
-                  </p>
-                )}
               </div>
               <label className="custom-checkbox login-form__checkbox">
                 <input
+                  onChange={() => setFormData({...formData, isAgree: !formData.isAgree})}
                   type="checkbox"
                   id="id-order-agreement"
                   name="user-agreement"

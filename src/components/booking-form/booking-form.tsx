@@ -7,18 +7,14 @@ import { useForm } from 'react-hook-form';
 import { fetchBookQuestAction } from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/use-app-dispatch/use-app-dispatch';
 import { BookedQuestData } from '../../types/booked-quest-data';
+import { BookingInputs } from '../../types/form';
+import { userNamePattern, userTelPattern, RegisterName, FormValidationErrorMessage } from '../../const';
 
 type BookingFormProps = {
   selectedPoint: Point | null;
   peopleMinMax: number[];
   questId: string | null;
 }
-
-type Inputs = {
-  userName: string;
-  userTel: string;
-  persons: string;
-};
 
 function BookingForm({selectedPoint, peopleMinMax, questId}: BookingFormProps): JSX.Element {
 
@@ -36,7 +32,7 @@ function BookingForm({selectedPoint, peopleMinMax, questId}: BookingFormProps): 
     isAgree: false,
   });
 
-  const {register, handleSubmit, formState: { errors, isDirty, isValid }, getValues} = useForm<Inputs>({mode: 'onChange'});
+  const {register, handleSubmit, formState: { errors, isDirty, isValid }, getValues} = useForm<BookingInputs>({mode: 'onChange'});
 
   const dispatch = useAppDispatch();
 
@@ -86,12 +82,12 @@ function BookingForm({selectedPoint, peopleMinMax, questId}: BookingFormProps): 
             type="text"
             id="name"
             placeholder="Имя"
-            {...register('userName', { required: true, maxLength: 15, pattern: /^[А-Яа-яЁёA-Za-z'-]*$/ })}
+            {...register(RegisterName.USER_NAME, { required: true, maxLength: 15, pattern: userNamePattern })}
             aria-invalid={errors.userName ? 'true' : 'false'}
           />
-          {errors.userName?.type === 'required' && <><br/><span role="alert">Укажите имя</span></>}
-          {errors.userName?.type === 'maxLength' && <><br/><span role="alert">Имя должно быть от 1 до 15 символов</span></>}
-          {errors.userName?.type === 'pattern' && <><br/><span role="alert">Имя может содержать только буквы А-Я, а-я, A-Z, a-z и символ &quot;-&quot;</span></>}
+          {errors.userName?.type === 'required' && <><br/><span role="alert">{FormValidationErrorMessage.INVALID_NAME}</span></>}
+          {errors.userName?.type === 'maxLength' && <><br/><span role="alert">{FormValidationErrorMessage.IMVALID_NAME_LENGTH}</span></>}
+          {errors.userName?.type === 'pattern' && <><br/><span role="alert">{FormValidationErrorMessage.INVALID_NAME_SYMBOLS}</span></>}
         </div>
         <div className="custom-input booking-form__input">
           <label className="custom-input__label" htmlFor="tel">
@@ -101,11 +97,11 @@ function BookingForm({selectedPoint, peopleMinMax, questId}: BookingFormProps): 
             type="tel"
             id="tel"
             placeholder="Телефон"
-            {...register('userTel', { required: 'Укажите номер телефона', pattern: /^\+7\(\d{3}\)\d{3}-\d{2}-\d{2}$/ })}
+            {...register(RegisterName.USER_TEL, { required: true, pattern: userTelPattern })}
             aria-invalid={errors.userTel ? 'true' : 'false'}
           />
-          {errors.userTel?.type === 'pattern' && <><br/><span role="alert">Телефон должен быть введен в формате +7(000)000-00-00</span></>}
-          {errors.userTel?.type === 'required' && <><br/><span role="alert">Введите номер телефона</span></>}
+          {errors.userTel?.type === 'pattern' && <><br/><span role="alert">{FormValidationErrorMessage.INVALID_PHONE_FORMAT}</span></>}
+          {errors.userTel?.type === 'required' && <><br/><span role="alert">{FormValidationErrorMessage.INVALID_PHONE}</span></>}
         </div>
         <div className="custom-input booking-form__input">
           <label className="custom-input__label" htmlFor="person">
@@ -115,12 +111,12 @@ function BookingForm({selectedPoint, peopleMinMax, questId}: BookingFormProps): 
             type="number"
             id="person"
             placeholder="Количество участников"
-            {...register('persons', { required: 'Укажите количество участников', min: min, max: max })}
+            {...register(RegisterName.PERSONS, { required: true, min: min, max: max })}
             aria-invalid={errors.persons ? 'true' : 'false'}
           />
-          {errors.persons?.type === 'required' && <><br/><span role="alert">Укажите количество участников</span></>}
-          {errors.persons?.type === 'min' && <><br/><span role="alert">Возможное количество участников: от {min} до {max}</span></>}
-          {errors.persons?.type === 'max' && <><br/><span role="alert">Возможное количество участников: от {min} до {max}</span></>}
+          {errors.persons?.type === 'required' && <><br/><span role="alert">{FormValidationErrorMessage.INVALID_PERSONS}</span></>}
+          {errors.persons?.type === 'min' && <><br/><span role="alert">{FormValidationErrorMessage.INVALID_PERSONS_COUNT}от {min} до {max}</span></>}
+          {errors.persons?.type === 'max' && <><br/><span role="alert">{FormValidationErrorMessage.INVALID_PERSONS_COUNT}от {min} до {max}</span></>}
         </div>
         <label className="custom-checkbox booking-form__checkbox booking-form__checkbox--children">
           <input

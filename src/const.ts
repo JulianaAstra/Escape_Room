@@ -119,3 +119,34 @@ export const GenrereFilters: GenreFilter[] = [
 ];
 
 export const TIMEOUT_SHOW_ERROR = 2000;
+
+export const emailPattern = /^[\w.]+@([\w-]+\.)+[\w-]{1,}$/;
+
+export const passwordPattern = /^(?=.*[a-z])(?=.*\d).{3,}/;
+
+export const userNamePattern = /^[А-Яа-яЁёA-Za-z'-]*$/;
+
+export const userTelPattern = /^\+7\(\d{3}\)\d{3}-\d{2}-\d{2}$/;
+
+export enum RegisterName {
+  USER_NAME = 'userName',
+  USER_TEL = 'userTel',
+  PERSONS = 'persons',
+  EMAIL = 'email',
+  PASSWORD = 'password'
+}
+
+export enum FormValidationErrorMessage {
+  INVALID_NAME = 'Укажите имя',
+  IMVALID_NAME_LENGTH = 'Имя должно быть от 1 до 15 символов',
+  INVALID_NAME_SYMBOLS = 'Имя может содержать только буквы А-Я, а-я, A-Z, a-z и символ -',
+  INVALID_PHONE_FORMAT = 'Телефон должен быть введен в формате +7(000)000-00-00',
+  INVALID_PHONE = 'Введите номер телефона',
+  INVALID_PERSONS = 'Укажите количество участников',
+  INVALID_PERSONS_COUNT = 'Возможное количество участников: ',
+  INVALID_EMAIL = 'Укажите email',
+  INVALID_EMAIL_FORMAT = 'Email должен быть вида name@domen.ru',
+  INVALID_PASSWORD = 'Придумайте пароль',
+  INVALID_PASSWORD_FORMAT = 'Пароль должен состоять минимум из одной буквы и цифры',
+  INVALID_PASSWORD_LENGTH = 'Пароль может содержать oт 3 до 15 символов'
+}
