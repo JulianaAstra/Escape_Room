@@ -5,7 +5,7 @@ import { useParams, Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppSelector } from '../../hooks/use-app-selector/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch/use-app-dispatch';
-import { fetchDetailedQuestAction, fetchBookingInformationAction } from '../../store/api-actions';
+import { fetchDetailedQuestAction } from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
 import Page404 from '../404-page/404-page';
 import { useEffect } from 'react';
@@ -22,7 +22,7 @@ function QuestPage(): JSX.Element {
       return;
     }
     dispatch(fetchDetailedQuestAction({id: questId}));
-    dispatch(fetchBookingInformationAction({id: questId}));
+    // dispatch(fetchBookingInformationAction({id: questId}));
   }, [isIdExists, questId, dispatch]
   );
 

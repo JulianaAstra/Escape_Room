@@ -25,17 +25,6 @@ export const fetchQuestAction = createAsyncThunk<void, undefined, ThunkObjType>(
   },
 );
 
-export const fetchDetailedQuestAction = createAsyncThunk<void, {id: string}, ThunkObjType>(
-  'data/fetchDetailedQuest', async ({id}, {dispatch, extra: api}) => {
-    dispatch(setDetailedQuestDataLoadingStatus(true));
-    const url = id !== undefined ? `${APIRoute.Quests}/${id}` : '';
-    const {data} = await
-    api.get<DetailedQuest>(url);
-    dispatch(getDetailedQuest(data));
-    dispatch(setDetailedQuestDataLoadingStatus(false));
-  },
-);
-
 export const fetchBookingInformationAction = createAsyncThunk<void, {id: string}, ThunkObjType>(
   'data/fetchBookingInformation', async ({id}, {dispatch, extra: api}) => {
     dispatch(setBookingInformationDataLoadingStatus(true));
@@ -44,6 +33,18 @@ export const fetchBookingInformationAction = createAsyncThunk<void, {id: string}
     api.get<Point[]>(url);
     dispatch(getBookingInformation(data));
     dispatch(setBookingInformationDataLoadingStatus(false));
+  },
+);
+
+export const fetchDetailedQuestAction = createAsyncThunk<void, {id: string}, ThunkObjType>(
+  'data/fetchDetailedQuest', async ({id}, {dispatch, extra: api}) => {
+    dispatch(setDetailedQuestDataLoadingStatus(true));
+    const url = id !== undefined ? `${APIRoute.Quests}/${id}` : '';
+    const {data} = await
+    api.get<DetailedQuest>(url);
+    dispatch(getDetailedQuest(data));
+    dispatch(fetchBookingInformationAction({id}));
+    dispatch(setDetailedQuestDataLoadingStatus(false));
   },
 );
 
