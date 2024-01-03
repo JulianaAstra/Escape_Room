@@ -2,8 +2,8 @@ import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import { Helmet } from 'react-helmet-async';
 import BookingForm from '../../components/booking-form/booking-form';
-import Map from '../../components/map/map';
-import {useState, useEffect} from 'react';
+import {Map} from '../../components/map/map';
+import {useState, useEffect, useCallback} from 'react';
 import { Point } from '../../types/types';
 import { useAppSelector } from '../../hooks/use-app-selector/use-app-selector';
 import LoadingScreen from '../loading-screen/loading-screen';
@@ -19,6 +19,10 @@ function BookingPage(): JSX.Element {
   const selectedPointID: string | null = selectedPoint !== null ? selectedPoint.id : null;
 
   const [selectedPointId, setSelectedPointId] = useState<string | null>(selectedPointID);
+
+  const handleMarkerClick = useCallback((point: string) => {
+    setSelectedPointId(point);
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -53,10 +57,6 @@ function BookingPage(): JSX.Element {
   }
 
   const {id, title, previewImg, previewImgWebp, coverImg, coverImgWebp, peopleMinMax} = detailedQuest;
-
-  const handleMarkerClick = (point: string) => {
-    setSelectedPointId(point);
-  };
 
   return (
     <div className="wrapper">

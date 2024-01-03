@@ -1,5 +1,5 @@
 import { Time } from '../../types/types';
-import { MouseEvent } from 'react';
+import { MouseEvent, memo } from 'react';
 
 type BookingDatesListProps = {
   slot: Time[] | null;
@@ -8,7 +8,7 @@ type BookingDatesListProps = {
   handleDateClick: (value: string, name: string) => void;
 }
 
-function BookingDatesList({slot, slotNameRu, slotNameEng, handleDateClick}: BookingDatesListProps): JSX.Element {
+function BookingDatesListComponent({slot, slotNameRu, slotNameEng, handleDateClick}: BookingDatesListProps): JSX.Element {
 
   const handleClick = (value: string, name: string) => {
     handleDateClick(value, name);
@@ -36,4 +36,5 @@ function BookingDatesList({slot, slotNameRu, slotNameEng, handleDateClick}: Book
   );
 }
 
-export default BookingDatesList;
+export const BookingDatesList = memo(BookingDatesListComponent);
+

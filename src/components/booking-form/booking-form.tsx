@@ -1,8 +1,8 @@
 import { Point } from '../../types/types';
-import BookingDatesList from '../booking-dates-list/booking-dates-list';
+import {BookingDatesList} from '../booking-dates-list/booking-dates-list';
 import { SlotName } from '../../const';
 import { SlotNameEng } from '../../const';
-import {useState, useRef} from 'react';
+import {useState, useRef, useCallback} from 'react';
 import { useForm } from 'react-hook-form';
 import { fetchBookQuestAction } from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/use-app-dispatch/use-app-dispatch';
@@ -56,9 +56,10 @@ function BookingForm({selectedPoint, peopleMinMax, questId}: BookingFormProps): 
     dispatch(fetchBookQuestAction(bookedQuest));
   };
 
-  const dateClickHandler = (value: string, name: string) => {
+  const dateClickHandler = useCallback((value: string, name: string) => {
     setFormData({...formData, time: value, date: name});
-  };
+  }, [formData]);
+
 
   return (
     <form

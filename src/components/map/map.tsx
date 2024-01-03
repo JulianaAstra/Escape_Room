@@ -1,5 +1,5 @@
 import 'leaflet/dist/leaflet.css';
-import {useRef, useEffect} from 'react';
+import {useRef, useEffect, memo} from 'react';
 import useMap from '../../hooks/use-map/use-map';
 import {Icon, Marker, featureGroup} from 'leaflet';
 import { CityPoint } from '../../const';
@@ -12,7 +12,7 @@ type MapProps = {
   clickHandler: (point: string) => void;
 }
 
-function Map({points, selectedPointId, clickHandler}: MapProps): JSX.Element {
+function MapComponent({points, selectedPointId, clickHandler}: MapProps): JSX.Element {
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, CityPoint);
@@ -64,5 +64,6 @@ function Map({points, selectedPointId, clickHandler}: MapProps): JSX.Element {
   );
 }
 
-export default Map;
+export const Map = memo(MapComponent);
+
 
