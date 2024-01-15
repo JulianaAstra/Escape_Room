@@ -6,37 +6,31 @@ import { Helmet } from 'react-helmet-async';
 import FiltersForm from '../../components/filters-form/filters-form';
 import { useAppSelector } from '../../hooks/use-app-selector/use-app-selector';
 import LoadingScreen from '../loading-screen/loading-screen';
-import { getQuestDataLoadingStatus, getQuests } from '../../store/app-data/selectors';
-import { setActiveFilterTheme, setActiveFilterDifficulty } from '../../store/app-process/selectors';
+import { getQuestDataLoadingStatus, getFilteredQuests, setActiveFilterTheme, setActiveFilterDifficulty } from '../../store/app-data/selectors';
 import { memo } from 'react';
+import { useDispatch } from 'react-redux';
+import { filterQuests, sortQuests } from '../../store/app-data/app-data';
+import { useEffect } from 'react';
 
 function MainPageComponent(): JSX.Element {
   const activeFilterTheme = useAppSelector(setActiveFilterTheme);
   const activeFilterDifficulty = useAppSelector(setActiveFilterDifficulty);
+  const dispatch = useDispatch();
 
   const isQuestsLoading = useAppSelector(getQuestDataLoadingStatus);
 
-  const quests: Quest[] | null = useAppSelector(getQuests);
+  useEffect(() => {
+    dispatch(filterQuests(activeFilterTheme));
+    dispatch(sortQuests(activeFilterDifficulty));
+  }, [activeFilterDifficulty, activeFilterTheme]);
+
+  const quests: Quest[] | null = useAppSelector(getFilteredQuests);
 
   if (isQuestsLoading || quests === null) {
     return (
       <LoadingScreen />
     );
   }
-
-  const filteredQuests: Quest[] = quests.filter((item) => {
-    if (activeFilterTheme === 'all') {
-      return item;
-    }
-    return item.type === activeFilterTheme;
-  });
-
-  const sortedQuests: Quest[] = filteredQuests.filter((item) => {
-    if (activeFilterDifficulty === 'any') {
-      return item;
-    }
-    return item.level === activeFilterDifficulty;
-  });
 
   return (
     <div className="wrapper">
@@ -58,7 +52,7 @@ function MainPageComponent(): JSX.Element {
             <FiltersForm />
           </div>
           <h2 className="title visually-hidden">Выберите квест</h2>
-          <CardsList quests={sortedQuests}/>
+          <CardsList quests={quests}/>
         </div>
       </main>
       <Footer />

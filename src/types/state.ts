@@ -9,23 +9,21 @@ export type UserProcess = {
 export type AppData = {
   quests: Quest[] | null;
   detailedQuest: DetailedQuest | null;
+  filteredQuests: Quest[] | null;
   bookingInfo: Point[] | null;
   isQuestDataLoading: boolean;
   isDetailedQuestDataLoading: boolean;
   isBookingInformationDataLoading: boolean;
+  activeFilterTheme: string;
+  activeFilterDifficulty: string;
+  isBookQuestLoading: boolean;
+  isDeleteQuestLoading: boolean;
 }
 
 export type UserData = {
   bookedQuests: BookedQuest[] | null;
   reservationId: string | null;
   isBookedQuestsDataLoading: boolean;
-}
-
-export type AppProcess = {
-  activeFilterTheme: string | undefined;
-  activeFilterDifficulty: string | undefined;
-  isBookQuestLoading: boolean;
-  isDeleteQuestLoading: boolean;
 }
 
 export type State = ReturnType<typeof store.getState>;

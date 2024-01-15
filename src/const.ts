@@ -156,7 +156,6 @@ export const NameSpace = {
   AppData: 'APP_DATA',
   UserData: 'USER_DATA',
   UserProcess: 'USER_PROCESS',
-  AppProcess: 'APP_POCESS',
 } as const;
 
 export enum Level {

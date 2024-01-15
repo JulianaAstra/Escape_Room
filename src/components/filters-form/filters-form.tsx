@@ -2,8 +2,8 @@ import { GenreFilters, DifficultyFilters, Filters } from '../../const';
 import { useAppSelector } from '../../hooks/use-app-selector/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch/use-app-dispatch';
 import { MouseEvent } from 'react';
-import { setActiveFilterTheme, setActiveFilterDifficulty } from '../../store/app-process/selectors';
-import {changeFilterTheme, changeFilterDifficulty} from '../../store/app-process/app-process';
+import { setActiveFilterTheme, setActiveFilterDifficulty } from '../../store/app-data/selectors';
+import {changeFilterTheme, changeFilterDifficulty} from '../../store/app-data/app-data';
 
 function FiltersForm(): JSX.Element {
   const themeTitle = useAppSelector(setActiveFilterTheme);
