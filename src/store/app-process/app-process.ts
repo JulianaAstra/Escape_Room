@@ -20,9 +20,6 @@ export const appProcess = createSlice({
     changeFilterDifficulty: (state, action: PayloadAction<string>) => {
       state.activeFilterDifficulty = action.payload;
     },
-    setReservationId: (state, action: PayloadAction<string>) => {
-      state.activeFilterDifficulty = action.payload;
-    },
   },
   extraReducers(builder) {
     builder
@@ -41,4 +38,4 @@ export const appProcess = createSlice({
   }
 });
 
-export const {changeFilterTheme, setReservationId, changeFilterDifficulty} = appProcess.actions;
+export const {changeFilterTheme, changeFilterDifficulty} = appProcess.actions;

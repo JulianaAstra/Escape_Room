@@ -16,9 +16,6 @@ export const userData = createSlice({
     setBookedQuestsDataLoadingStatus: (state, action: PayloadAction<boolean>) => {
       state.isBookedQuestsDataLoading = action.payload;
     },
-    setReservationId: (state, action: PayloadAction<string | null>) => {
-      state.reservationId = action.payload;
-    },
   },
   extraReducers(builder) {
     builder
