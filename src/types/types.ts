@@ -72,7 +72,7 @@ export type BookedQuest = {
   time: string;
   contactPerson: string;
   phone: string;
-  withChildren: boolean;
+  withChildren: boolean | undefined;
   peopleCount: number;
   id: reservationId;
   location: Location;

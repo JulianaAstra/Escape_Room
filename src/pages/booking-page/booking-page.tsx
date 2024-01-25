@@ -13,12 +13,12 @@ import { getDetailedQuest, getBookingInfo, getBookingInfoLoadingStatus, getDetai
 function BookingPage(): JSX.Element {
   const detailedQuest = useAppSelector(getDetailedQuest);
   const bookingInfo = useAppSelector(getBookingInfo);
-  const firstPoint: Point | null = bookingInfo !== null ? bookingInfo[0] : null;
+  const firstPoint: Point | undefined | null = bookingInfo !== null ? bookingInfo[0] : null;
 
-  const [selectedPoint, setSelectedPoint] = useState<Point | null>(firstPoint);
-  const selectedPointID: string | null = selectedPoint !== null ? selectedPoint.id : null;
+  const [selectedPoint, setSelectedPoint] = useState<Point | undefined | null>(firstPoint);
+  const selectedPointID: string | null | undefined = selectedPoint !== null ? selectedPoint?.id : null;
 
-  const [selectedPointId, setSelectedPointId] = useState<string | null>(selectedPointID);
+  const [selectedPointId, setSelectedPointId] = useState<string | null | undefined>(selectedPointID);
 
   const handleMarkerClick = useCallback((point: string) => {
     setSelectedPointId(point);
@@ -29,14 +29,14 @@ function BookingPage(): JSX.Element {
 
     if (isMounted) {
       if (bookingInfo !== null) {
-        const currentAddress: Point | null = bookingInfo.find((elem) => elem.id === selectedPointId);
+        const currentAddress: Point | undefined = bookingInfo.find((elem) => elem.id === selectedPointId);
         setSelectedPoint(currentAddress);
       }
     }
     return () => {
       isMounted = false;
     };
-  }, [selectedPointId]);
+  }, [bookingInfo, selectedPointId]);
 
   const isDetailedQuestLoading = useAppSelector(getDetailedQuestDataLoadingStatus);
   const isBookingInfoLoading = useAppSelector(getBookingInfoLoadingStatus);
@@ -95,7 +95,7 @@ function BookingPage(): JSX.Element {
             <div className="booking-map">
               <Map points={bookingInfo} selectedPointId={selectedPointId} clickHandler={handleMarkerClick} />
               <p className="booking-map__address">
-            Вы&nbsp;выбрали: {selectedPoint !== null ? selectedPoint['location']['address'] : ''}
+            Вы&nbsp;выбрали: {selectedPoint !== null && selectedPoint !== undefined ? selectedPoint['location']['address'] : ''}
               </p>
             </div>
           </div>

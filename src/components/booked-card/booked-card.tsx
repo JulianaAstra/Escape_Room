@@ -24,7 +24,7 @@ function BookedCard({bookedQuest}: BookedCardProps): JSX.Element {
 
   const dispatch = useAppDispatch();
   const {date, time, peopleCount, location, quest} = bookedQuest;
-  const reservId = bookedQuest.id;
+  const reservId = String(bookedQuest.id);
   const {id, title, level, previewImg, previewImgWebp} = quest;
 
   const handleDeleteBtnClick = (evt: React.MouseEvent<HTMLButtonElement>) => {

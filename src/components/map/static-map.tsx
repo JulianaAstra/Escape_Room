@@ -10,13 +10,12 @@ function StaticMap(): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, AddressPoint);
 
-  const defaultCustomIcon = new Icon({
-    iconUrl: UrlMarker.UrlMarkerCurrent,
-    iconSize: [23, 42],
-    iconAnchor: [20, 40],
-  });
-
   useEffect(() => {
+    const defaultCustomIcon = new Icon({
+      iconUrl: UrlMarker.UrlMarkerCurrent,
+      iconSize: [23, 42],
+      iconAnchor: [20, 40],
+    });
     let isMounted = true;
 
     if (isMounted) {

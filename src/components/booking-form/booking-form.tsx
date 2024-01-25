@@ -11,7 +11,7 @@ import { BookingInputs } from '../../types/form';
 import { USER_NAME_PATTERN, USER_PHONE_PATTERN, RegisterName, FormValidationErrorMessage } from '../../const';
 
 type BookingFormProps = {
-  selectedPoint: Point | null;
+  selectedPoint: Point | null | undefined;
   peopleMinMax: number[];
   questId: string | null;
 }
@@ -21,10 +21,10 @@ function BookingForm({selectedPoint, peopleMinMax, questId}: BookingFormProps): 
   const childrenRef = useRef<HTMLInputElement | null>(null);
 
   const [min, max] = peopleMinMax;
-  const slots = selectedPoint !== null ? selectedPoint.slots : null;
-  const placeId = selectedPoint !== null ? selectedPoint.id : null;
-  const today = slots !== null ? slots.today : null;
-  const tomorrow = slots !== null ? slots.tomorrow : null;
+  const slots = selectedPoint !== null ? selectedPoint?.slots : null;
+  const placeId = selectedPoint !== null ? selectedPoint?.id : null;
+  const today = slots !== null ? slots?.today : null;
+  const tomorrow = slots !== null ? slots?.tomorrow : null;
 
   const [formData, setFormData] = useState({
     date: '',
@@ -63,6 +63,7 @@ function BookingForm({selectedPoint, peopleMinMax, questId}: BookingFormProps): 
 
   return (
     <form
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onSubmit={handleSubmit(submitHandler)}
       className="booking-form"
       action="https://echo.htmlacademy.ru/"

@@ -65,9 +65,6 @@ function ContactPage(): JSX.Element {
             </dl>
             <div className="contacts__map">
               <StaticMap />
-              {/* <div className="map">
-                <div className="map__container" />
-              </div> */}
             </div>
           </div>
         </div>

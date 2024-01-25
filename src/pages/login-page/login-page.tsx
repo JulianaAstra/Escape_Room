@@ -51,6 +51,7 @@ export const LoginPage = () => {
         <div className="container container--size-l">
           <div className="login__form">
             <form
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onSubmit={handleSubmit(submitHandler)}
               className="login-form"
               action=""

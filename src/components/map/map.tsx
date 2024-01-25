@@ -8,7 +8,7 @@ import { UrlMarker } from '../../const';
 
 type MapProps = {
   points: Point[];
-  selectedPointId: string | null;
+  selectedPointId: string | null | undefined;
   clickHandler: (point: string) => void;
 }
 
@@ -17,22 +17,22 @@ function MapComponent({points, selectedPointId, clickHandler}: MapProps): JSX.El
   const mapRef = useRef(null);
   const map = useMap(mapRef, CityPoint);
 
-  const defaultCustomIcon = new Icon({
-    iconUrl: UrlMarker.UrlMarkerDefault,
-    iconSize: [23, 42],
-    iconAnchor: [20, 40],
-  });
-
-  const currentCustomIcon = new Icon({
-    iconUrl: UrlMarker.UrlMarkerCurrent,
-    iconSize: [23, 42],
-    iconAnchor: [20, 40],
-  });
-
-  const handleMarkerClick = (pointId: string) => clickHandler(pointId);
-
   useEffect(() => {
     let isMounted = true;
+
+    const defaultCustomIcon = new Icon({
+      iconUrl: UrlMarker.UrlMarkerDefault,
+      iconSize: [23, 42],
+      iconAnchor: [20, 40],
+    });
+
+    const currentCustomIcon = new Icon({
+      iconUrl: UrlMarker.UrlMarkerCurrent,
+      iconSize: [23, 42],
+      iconAnchor: [20, 40],
+    });
+
+    const handleMarkerClick = (pointId: string) => clickHandler(pointId);
 
     if (isMounted) {
       if (map) {
@@ -55,7 +55,7 @@ function MapComponent({points, selectedPointId, clickHandler}: MapProps): JSX.El
     return () => {
       isMounted = false;
     };
-  }, [map, points, selectedPointId]);
+  }, [clickHandler, map, points, selectedPointId]);
 
   return (
     <div className="map">

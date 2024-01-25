@@ -22,7 +22,7 @@ function MainPageComponent(): JSX.Element {
   useEffect(() => {
     dispatch(filterQuests(activeFilterTheme));
     dispatch(sortQuests(activeFilterDifficulty));
-  }, [activeFilterDifficulty, activeFilterTheme]);
+  }, [activeFilterDifficulty, activeFilterTheme, dispatch]);
 
   const quests: Quest[] | null = useAppSelector(getFilteredQuests);
 

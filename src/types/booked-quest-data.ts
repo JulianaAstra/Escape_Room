@@ -5,10 +5,10 @@ export type BookedQuestData = {
   time: string;
   contactPerson: string;
   phone: string;
-  withChildren: boolean;
+  withChildren: boolean | undefined;
   peopleCount: number;
-  placeId: string;
-  id: string;
+  placeId: string | null | undefined;
+  id: string | null;
 };
 
 export type ReservedQuestData = {
