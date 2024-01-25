@@ -5,20 +5,23 @@ import { MouseEvent } from 'react';
 import { setActiveFilterTheme, setActiveFilterDifficulty } from '../../store/app-data/selectors';
 import {changeFilterTheme, changeFilterDifficulty} from '../../store/app-data/app-data';
 
+type ThemeType = string;
+type DifficultyType = string;
+
 function FiltersForm(): JSX.Element {
-  const themeTitle = useAppSelector(setActiveFilterTheme);
-  const difficultyTitle = useAppSelector(setActiveFilterDifficulty);
+  const themeTitle = useAppSelector(setActiveFilterTheme) ;
+  const difficultyTitle = useAppSelector(setActiveFilterDifficulty) ;
   const dispatch = useAppDispatch();
 
   const handleThemeClick = (evt: MouseEvent<HTMLElement>) => {
     evt.preventDefault();
-    const theme = evt.currentTarget.dataset.theme;
+    const theme = evt.currentTarget.dataset.theme as ThemeType;
     dispatch(changeFilterTheme(theme));
   };
 
   const handleDifficultyClick = (evt: MouseEvent<HTMLElement>) => {
     evt.preventDefault();
-    const difficulty = evt.currentTarget.dataset.difficulty;
+    const difficulty = evt.currentTarget.dataset.difficulty as DifficultyType;
     dispatch(changeFilterDifficulty(difficulty));
   };
 

@@ -74,7 +74,7 @@ export type BookedQuest = {
   phone: string;
   withChildren: boolean | undefined;
   peopleCount: number;
-  id: reservationId;
+  id: reservationId | null | undefined;
   location: Location;
   quest: BookedQuestDetailed;
 };
